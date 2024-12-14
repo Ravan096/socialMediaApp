@@ -443,7 +443,6 @@ const HomeCard = ({image}:any)=>{
 
   const handleShowComments = () => {
     setShowComments(!showComments);
-    const toggleDrawer=(!showComments)
   };
 
   const handleLike=()=> {

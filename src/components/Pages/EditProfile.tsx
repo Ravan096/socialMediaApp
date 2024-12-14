@@ -29,7 +29,6 @@ function EditProfile() {
     const [dob, setDob]= useState('');
     const [website, setWebsite]= useState('');
     const [imageprev, setImageprev] = useState('');
-    const [image, setImage] = useState('');
 
 
     const changeImageHandler = (e:any) => {
@@ -38,9 +37,6 @@ function EditProfile() {
         reader.readAsDataURL(file);
         reader.onloadend = () => {
           setImageprev(reader.result as string);
-          setImage(file);
-          console.log("filetest",typeof(file))
-          
         };
       };
     

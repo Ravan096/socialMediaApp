@@ -34,6 +34,7 @@ const Userprofile = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    console.warn(event)
   };
   return (
     <Stack  sx={{
