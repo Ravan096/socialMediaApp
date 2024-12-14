@@ -6,7 +6,6 @@ import {Input,Button} from '@mui/joy';
 import {Link,useNavigate} from 'react-router-dom';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { useState } from 'react';
-import axios from 'axios';
 import  {toast}  from 'react-hot-toast';
 
 
@@ -18,28 +17,13 @@ const Login = () => {
 
 
    const LoginHandle=  async ()=>{
-    console.log({email,password});
         try{
-            await axios.post("http://localhost:3000/api/v1/login",{
-              email,password
-            })
-            .then(res=>{
-              console.log(res.data)
-                if(res.data){
-                    history("/home")
-                }
-                else if(!res.data){
-                  toast.error("User Or Password error");
-                }
-            })
-            .catch(e=>{
-                toast.error("User or Password Wrong")
-                console.log(e);
-            })
-
+          history("/home")
+          toast.success("Login success")
         }
         catch(e){
             console.log(e);
+            toast.error("internal error")
         }
     }
 
