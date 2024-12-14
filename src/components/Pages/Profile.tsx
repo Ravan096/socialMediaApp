@@ -37,6 +37,7 @@ const Profile = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    console.warn(event)
   };
 
   const FollowHandler= ()=>{
