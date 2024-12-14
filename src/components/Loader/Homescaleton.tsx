@@ -1,18 +1,5 @@
-import { Box, Stack ,Typography} from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
-import { Input, } from '@mui/joy';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import SearchIcon from '@mui/icons-material/Search';
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import BookmarkRoundedIcon from '@mui/icons-material/BookmarkRounded';
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import TelegramIcon from '@mui/icons-material/Telegram';
-
 const Homescaleton = () => {
   return (
     <Stack spacing={1}>

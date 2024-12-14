@@ -1,10 +1,5 @@
 import {Stack,Box, Typography,Avatar} from '@mui/material';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import InstagramIcon from '@mui/icons-material/Instagram';
 import { Input, } from '@mui/joy';
-import SearchIcon from '@mui/icons-material/Search';
 import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import OutlinedFlagOutlinedIcon from '@mui/icons-material/OutlinedFlagOutlined';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -14,7 +9,6 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import MicIcon from '@mui/icons-material/Mic';
 import ImageIcon from '@mui/icons-material/Image';
 import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import {useState} from 'react';
 import { Link } from 'react-router-dom';
 

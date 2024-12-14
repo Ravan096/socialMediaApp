@@ -1,13 +1,5 @@
 import { Stack,Box,Typography, Avatar, Button} from '@mui/material'
-import {Input} from '@mui/joy';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import SearchIcon from '@mui/icons-material/Search';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import proimg from '../../assets/peakpx.jpg';
 import { Link } from 'react-router-dom';
 

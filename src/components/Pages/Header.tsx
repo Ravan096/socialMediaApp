@@ -1,11 +1,8 @@
 import { Link } from "react-router-dom"
-import { Box,Typography, } from "@mui/material"
+import { Box } from "@mui/material"
 import { Input } from "@mui/joy";
-import InstagramIcon from '@mui/icons-material/Instagram';
 import SearchIcon from '@mui/icons-material/Search';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import AddBoxIcon from '@mui/icons-material/AddBox';

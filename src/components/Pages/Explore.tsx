@@ -1,13 +1,5 @@
 import {Stack,Box,Typography,Avatar,Button } from "@mui/material";
-import InstagramIcon from '@mui/icons-material/Instagram';
-import { Input, } from '@mui/joy';
-import SearchIcon from '@mui/icons-material/Search';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import proimg from '../../assets/peakpx.jpg';
-import { Link } from "react-router-dom";
 
 
 const Explore = () => {

@@ -1,16 +1,5 @@
-import {Link} from 'react-router-dom';
 import {Stack,Box,Typography,Avatar,Button,styled} from '@mui/material';
 import { Input, } from '@mui/joy';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import SearchIcon from '@mui/icons-material/Search';
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
-import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
-import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import TelegramIcon from '@mui/icons-material/Telegram';
-import proimg from '../../assets/peakpx.jpg';
 import {useState} from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
@@ -22,9 +11,6 @@ export const fileUploadCss = {
     border: 'none',
     backgroundColor: 'white',
     color: '#ECC94B',
-  };
-  const fileUploadStyle = {
-    '&::file-selector-button': fileUploadCss,
   };
 
 
@@ -51,7 +37,7 @@ function EditProfile() {
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = () => {
-          setImageprev(reader.result);
+          setImageprev(reader.result as string);
           setImage(file);
           console.log("filetest",typeof(file))
           

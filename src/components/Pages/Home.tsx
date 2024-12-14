@@ -1,11 +1,7 @@
 import {Link} from 'react-router-dom';
 import {  Divider, Drawer, SwipeableDrawer } from "@mui/material";
 import {Stack,Box,Typography,Avatar,Button} from '@mui/material';
-import { Input, } from '@mui/joy';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import SearchIcon from '@mui/icons-material/Search';
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
