@@ -17,6 +17,7 @@ import { Toaster } from 'react-hot-toast';
 import Header from './components/Pages/Header';
 import Homescaleton from './components/Loader/Homescaleton';
 import Message from './components/Pages/Message';
+import Reels from './components/Pages/Reels';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path='/editprofile' element={<EditProfile />} />
           <Route path='/search' element={<Search />} />
           <Route path='/message' element={<Message />} />
+          <Route path='/reels' element={<Reels />} />
           <Route path='*' element={<PageNotFound />} />
         </Routes>
       </Suspense>
