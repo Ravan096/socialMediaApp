@@ -390,7 +390,7 @@ const Profile = () => {
                            flexWrap:"wrap",
                            width:"100%",
                            mt:1,
-                           gap:2
+                           gap:1
                            }}>
 
                   <Box sx={{
@@ -472,7 +472,7 @@ const Profile = () => {
                            flexWrap:"wrap",
                            width:"100%",
                            mt:1,
-                           gap:2
+                           gap:1
                            }}>
 
                   <Box sx={{
@@ -555,7 +555,7 @@ const Profile = () => {
                            flexWrap:"wrap",
                            width:"100%",
                            mt:1,
-                           gap:2
+                           gap:1
                            }}>
 
                   <Box sx={{
@@ -638,7 +638,7 @@ const Profile = () => {
                            flexWrap:"wrap",
                            width:"100%",
                            mt:1,
-                           gap:2
+                           gap:1
                            }}>
 
                   <Box sx={{
