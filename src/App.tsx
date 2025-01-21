@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { Suspense, lazy } from "react"
+import { Suspense, lazy, useEffect } from "react"
 const ForgotPassword = lazy(() => import("./components/Pages/ForgotPassword"));
 const Home = lazy(() => import("./components/Pages/Home"));
 const Login = lazy(() => import("./components/Pages/Login"));
@@ -12,17 +12,34 @@ const Like = lazy(() => import("./components/Pages/Like"));
 const Search = lazy(() => import("./components/Pages/Search"));
 const EditProfile = lazy(() => import("./components/Pages/EditProfile"));
 const PageNotFound = lazy(() => import("./components/Pages/PageNotFound"));
+const SettingActivity = lazy(() => import("./components/Pages/SettingActivity"));
 import Cam from './components/Pages/Cam';
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import Header from './components/Pages/Header';
 import Homescaleton from './components/Loader/Homescaleton';
 import Message from './components/Pages/Message';
 import Reels from './components/Pages/Reels';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './redux/store';
+import { clearError, clearMessage } from './redux/reducers/userSlice';
 
 function App() {
+  const dispatch = useDispatch();
+  const { error, message } = useSelector((state: RootState) => state.userslice);
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearError())
+    }
+    if (message) {
+      toast.success(message);
+      dispatch(clearMessage())
+    }
+  }, [error, message])
   return (
     <Router>
       <Suspense fallback={<Homescaleton />}>
+        <div style={{paddingBottom:"15%"}}>
         <Routes>
           <Route path='/home' element={<Home />} />
           <Route path='/profile' element={<Profile />} />
@@ -38,8 +55,10 @@ function App() {
           <Route path='/search' element={<Search />} />
           <Route path='/message' element={<Message />} />
           <Route path='/reels' element={<Reels />} />
+          <Route path='/settingsandactivity' element={<SettingActivity />} />
           <Route path='*' element={<PageNotFound />} />
         </Routes>
+        </div>
       </Suspense>
 
       <Header />

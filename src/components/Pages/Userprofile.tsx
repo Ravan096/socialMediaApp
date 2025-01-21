@@ -1,40 +1,45 @@
-import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import GridOnRoundedIcon from '@mui/icons-material/GridOnRounded';
 import LiveTvRoundedIcon from '@mui/icons-material/LiveTvRounded';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import MenuIcon from '@mui/icons-material/Menu';
 import SwitchAccountOutlinedIcon from '@mui/icons-material/SwitchAccountOutlined';
-import { Avatar, Box, Button, Stack, Typography } from '@mui/material';
-import proimg from '../../assets/peakpx.jpg';
-import { Link } from 'react-router-dom';
-import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { useState } from 'react';
+import { Avatar, Box, Button, Stack, Typography } from '@mui/material';
+import Tab from '@mui/material/Tab';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import img24 from '../../assets/2.jpg.webp';
+import img25 from '../../assets/5.jpg.webp';
+import img29 from '../../assets/7.jpg.webp';
+import img31 from '../../assets/banner5.jpg';
+import img26 from '../../assets/bg_1.jpg.webp';
+import img27 from '../../assets/bg_2.jpg.webp';
+import img30 from '../../assets/category-1.jpg';
+import img33 from '../../assets/image_5.jpg.webp';
+import img34 from '../../assets/item-14.jpg.webp';
 import img1 from '../../assets/jzc4hvrdcosbikvx0xzf.webp';
+import proimg from '../../assets/peakpx.jpg';
 import img11 from '../../assets/WallpaperDog-10916523.jpg';
 import img12 from '../../assets/WallpaperDog-20593498.jpg';
 import img13 from '../../assets/WallpaperDog-20618096.jpg';
 import img14 from '../../assets/WallpaperDog-20618169.jpg';
-import img21 from '../../assets/model_img_10-500x625.jpg';
-import img22 from '../../assets/model_img_3-500x625.jpg';
-import img23 from '../../assets/model_img_6-500x625.jpg';
-import img24 from '../../assets/2.jpg.webp';
-import img25 from '../../assets/5.jpg.webp';
-import img26 from '../../assets/bg_1.jpg.webp';
-import img27 from '../../assets/bg_2.jpg.webp';
-import img29 from '../../assets/7.jpg.webp';
-import img30 from '../../assets/category-1.jpg';
-import img31 from '../../assets/banner5.jpg';
-import img33 from '../../assets/image_5.jpg.webp';
-import img34 from '../../assets/item-14.jpg.webp';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { meAsync } from '../../redux/actions/userAction';
 
 const Userprofile = () => {
   const [value, setValue] = useState('1');
 
+  const { user } = useAppSelector(x => x.userslice)
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(meAsync({ args: '' }))
+  }, [dispatch])
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
-    console.warn(event)
   };
   return (
     <Stack sx={{
@@ -58,7 +63,7 @@ const Userprofile = () => {
       }}>
 
         <Box sx={{
-          // border:1, 
+          // border: 1,
           borderColor: "limegreen",
           width: ["100%", "30%"],
           height: "100%",
@@ -67,14 +72,54 @@ const Userprofile = () => {
           justifyContent: "space-between"
         }}>
 
+          <Box sx={{
+            display: "flex",
+            width: "100%",
+            // alignItems: "start",
+            // mt: 1,
+            justifyContent: "space-between"
+          }}>
+
+            <Typography fontWeight={"600"} sx={{ mt: 1 }}>
+              {user?.userName}
+            </Typography>
+
+            <Box
+              sx={{
+                // border:1,
+                borderColor: "black",
+                display: "flex",
+                gap: 2
+              }}>
+              <AddCircleOutlineIcon />
+              <Link to={'/settingsandactivity'}>
+                <MenuIcon /></Link>
+            </Box>
+
+
+          </Box>
+
+
+        </Box>
+
+        <Box sx={{
+          // border:1, 
+          borderColor: "limegreen",
+          width: ["100%", "30%"],
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around"
+        }}>
+
           <Avatar
-            src={proimg}
+            src={user?.Avatar.url}
             sx={{
               //  border:1,
               borderColor: "greenyellow",
-              height: 96,
-              width: 96,
-              mt: 2
+              height: 72,
+              width: 72,
+              mt: 1
             }} />
 
           <Box sx={{
@@ -85,17 +130,33 @@ const Userprofile = () => {
             justifyContent: "space-between"
           }}>
 
-            <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-              1,475 Posts
-            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <Typography fontWeight={"600"} sx={{ mt: 1 }}>
+                {user?.posts.length}
+              </Typography>
+              <Typography>
+                Posts
+              </Typography>
+            </Box>
 
-            <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-              15m followers
-            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <Typography fontWeight={"600"} sx={{ mt: 1 }}>
+                {user?.followers.length}
+              </Typography>
+              <Typography>
+                followers
+              </Typography>
+            </Box>
 
-            <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-              4,999 following
-            </Typography>
+
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <Typography fontWeight={"600"} sx={{ mt: 1 }}>
+                {user?.following.length}
+              </Typography>
+              <Typography>
+                following
+              </Typography>
+            </Box>
 
           </Box>
 
@@ -105,7 +166,7 @@ const Userprofile = () => {
 
 
         <Box sx={{
-          // border:1,
+          // border: 1,
           height: "100%",
           width: "100%",
           borderColor: "blue", display: "flex", flexDirection: "column", alignItems: "flex-start"
@@ -116,40 +177,46 @@ const Userprofile = () => {
             alignItems: "center",
             width: ["100%", "30%"],
             // border:1,
-            justifyContent: "space-around"
+            justifyContent: "flex-start"
           }}>
 
-            <Typography variant='h5' sx={{ mt: 1 }}>
-              Ashely Todd
+            <Typography variant='body1' fontWeight={"bold"} sx={{ mt: 1 }}>
+              {user?.FullName}
             </Typography>
-            <Link to={'/editprofile'}>
-              <Button variant="text" sx={{ color: "black" }}>
-                Edit Profile</Button></Link>
-            <Link to={'/'}>
-              <SettingsOutlinedIcon />
-            </Link>
           </Box>
 
 
           <Box sx={{
-            //   border:1,
-            width: ["100%", "45%"]
+            // border:1,
+            width: ["60%", "45%"]
           }}>
             <Typography variant="body2" sx={{
               mt: 1
             }}>
 
-              Bringing you closer to the people
-              and the ones you love 🧡.
-              Founder of @toddoagency. WATCH
-              @mynameisashley ON PRIME VIDEO 🎦
-              www.ashleytodd.com
+              {user?.bio} <br />
+              {user?.website}
             </Typography>
           </Box>
 
 
 
 
+          <Box sx={{ width: ["100%", "30%"], mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
+            <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
+              <Typography fontSize={""} m={0} p={0}>
+                Professional Dashboard
+              </Typography>
+              <Typography fontSize={"small"} m={0} p={0}>
+                New looks are available
+              </Typography>
+            </Link>
+          </Box>
+          <Box sx={{ width: ["100%", "30%"] }}>
+            <Link to={'/editprofile'}>
+              <Button variant="contained" fullWidth sx={{ color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
+                Edit Profile</Button></Link>
+          </Box>
         </Box>
 
       </Box>
@@ -230,9 +297,8 @@ const Userprofile = () => {
 
         <TabContext value={value}>
           <Box sx={{
-            // borderBottom: 1, 
-            // borderColor: 'divider',
-            borderColor: "crimson",
+            // borderBottom: 1,
+            // borderColor: "crimson",
             width: ["100%", "60%"],
             // height:"10%",
             display: "flex",
@@ -240,8 +306,9 @@ const Userprofile = () => {
             alignItems: "center"
             // p:1
           }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab value="1" label={
+            <TabList onChange={handleChange} aria-label="lab API tabs example"
+              sx={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <Tab value="1" sx={{ width: "33.3%" }} label={
                 <Box>
                   <GridOnRoundedIcon style={{ fontSize: "2.5rem" }} />
                   <Typography sx={{ ml: 1, display: ["none", "block"] }}>
@@ -252,7 +319,7 @@ const Userprofile = () => {
 
 
 
-              <Tab value="2" label={
+              <Tab value="2" sx={{ width: "33.3%" }} label={
                 <Box>
                   <LiveTvRoundedIcon style={{ fontSize: "2.5rem" }} />
                   <Typography sx={{ ml: 1, display: ["none", "block"] }}>
@@ -261,20 +328,8 @@ const Userprofile = () => {
                 </Box>
               } />
 
-              <Tab value="3" label={
-                <Box>
-                  <BookmarkBorderOutlinedIcon style={{ fontSize: "2.5rem" }} />
-                  <Typography sx={{ ml: 1, display: ["none", "block"] }}>
-                    SAVED
-                  </Typography>
-                </Box>
-              }
-              />
 
-
-
-
-              <Tab value="4" label={
+              <Tab value="3" sx={{ width: "33.3%" }} label={
                 <Box>
                   <SwitchAccountOutlinedIcon style={{ fontSize: "2.5rem" }} />
                   <Typography sx={{ ml: 1, display: ["none", "block"] }}>
@@ -291,27 +346,41 @@ const Userprofile = () => {
           <TabPanel value="1" sx={{ borderColor: "greenyellow", padding: 0 }}>
             <Box sx={{
               //  border:2,
-              borderColor: "brown",
+              // borderColor: "brown",
               height: ["", "77%"],
               display: "flex",
               justifyContent: "center",
               flexWrap: "wrap",
               width: "100%",
               mt: 1,
-              gap: 1
+              gap: 0.1,
+              boxSizing: "border-box"
             }}>
 
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'crimson',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img1} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
+              {
+                user && user?.posts.length > 0 ? (
+
+                  user.posts.map((item) => (
+                    <Box sx={{
+                      width: "33%",
+                      height: 110,
+                      backgroundColor: 'crimson',
+                      '&:hover': {
+                        backgroundColor: 'primary',
+                        opacity: [0.9, 0.8, 0.7],
+                      },
+                    }} key={item._id}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
+                  ))
+                ) : (
+                  <Typography>
+                    No Post Available
+                  </Typography>
+                )
+              }
+
+
+              {/* <Box sx={{
+                width: "33%",
                 height: 110,
                 backgroundColor: 'greenyellow',
                 '&:hover': {
@@ -320,7 +389,7 @@ const Userprofile = () => {
                 },
               }}><img src={img34} style={{ height: "100%", width: "100%" }} /></Box>
               <Box sx={{
-                width: 110,
+                width: "33%",
                 height: 110,
                 backgroundColor: 'greenyellow',
                 '&:hover': {
@@ -329,7 +398,7 @@ const Userprofile = () => {
                 },
               }}><img src={img33} style={{ height: "100%", width: "100%" }} /></Box>
               <Box sx={{
-                width: 110,
+                width: "33%",
                 height: 110,
                 backgroundColor: 'greenyellow',
                 '&:hover': {
@@ -338,7 +407,7 @@ const Userprofile = () => {
                 },
               }}><img src={img31} style={{ height: "100%", width: "100%" }} /></Box>
               <Box sx={{
-                width: 110,
+                width: "33%",
                 height: 110,
                 backgroundColor: 'greenyellow',
                 '&:hover': {
@@ -347,7 +416,7 @@ const Userprofile = () => {
                 },
               }}><img src={img30} style={{ height: "100%", width: "100%" }} /></Box>
               <Box sx={{
-                width: 110,
+                width: "33%",
                 height: 110,
                 backgroundColor: 'greenyellow',
                 '&:hover': {
@@ -356,7 +425,7 @@ const Userprofile = () => {
                 },
               }}><img src={img29} style={{ height: "100%", width: "100%" }} /></Box>
               <Box sx={{
-                width: 110,
+                width: "33%",
                 height: 110,
                 backgroundColor: 'greenyellow',
                 '&:hover': {
@@ -365,7 +434,7 @@ const Userprofile = () => {
                 },
               }} />
               <Box sx={{
-                width: 110,
+                width: "33%",
                 height: 110,
                 backgroundColor: 'greenyellow',
                 '&:hover': {
@@ -374,14 +443,14 @@ const Userprofile = () => {
                 },
               }} />
               <Box sx={{
-                width: 110,
+                width: "33%",
                 height: 110,
                 backgroundColor: 'greenyellow',
                 '&:hover': {
                   backgroundColor: 'primary',
                   opacity: [0.9, 0.8, 0.7],
                 },
-              }} />
+              }} /> */}
 
 
 
@@ -398,91 +467,31 @@ const Userprofile = () => {
               flexWrap: "wrap",
               width: "100%",
               mt: 1,
-              gap: 1
+              gap: 0.1
             }}>
 
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'green',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img11} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img12} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img13} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img14} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
 
+
+              {
+                user && user?.posts.length > 0 ? (
+
+                  user.posts.map((item) => (
+                    <Box sx={{
+                      width: "33%",
+                      height: 110,
+                      backgroundColor: 'green',
+                      '&:hover': {
+                        backgroundColor: 'primary',
+                        opacity: [0.9, 0.8, 0.7],
+                      },
+                    }} key={item._id}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
+                  ))
+                ) : (
+                  <Typography>
+                    No Post Available
+                  </Typography>
+                )
+              }
 
 
             </Box>
@@ -499,191 +508,30 @@ const Userprofile = () => {
               flexWrap: "wrap",
               width: "100%",
               mt: 1,
-              gap: 1
+              gap: 0.1
             }}>
 
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img21} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img22} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img23} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
+              {
+                user && user?.posts.length > 0 ? (
 
-
-
-            </Box>
-          </TabPanel>
-
-
-          <TabPanel value="4" sx={{ borderColor: "greenyellow", padding: 0 }}>
-            <Box sx={{
-              //  border:2,
-              borderColor: "brown",
-              height: ["", "77%"],
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              width: "100%",
-              mt: 1,
-              gap: 1
-            }}>
-
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img24} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img25} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img26} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img27} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: 110,
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
+                  user.posts.map((item) => (
+                    <Box sx={{
+                      width: "33%",
+                      height: 110,
+                      backgroundColor: 'greenyellow',
+                      '&:hover': {
+                        backgroundColor: 'primary',
+                        opacity: [0.9, 0.8, 0.7],
+                      },
+                    }} key={item._id}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
+                  ))
+                ) : (
+                  <Typography>
+                    No Post Available
+                  </Typography>
+                )
+              }
+              
 
 
 
