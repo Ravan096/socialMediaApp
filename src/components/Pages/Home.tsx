@@ -30,10 +30,8 @@ const Home = () => {
 
   const [followBtn, setFollowBtn] = useState("Follow");
   const [Posts, setPosts] = useState<Post[]>([]);
-  const [postoffollowing, setPostOfFollowing] = useState([]);
   const dispatch = useAppDispatch();
-  const { posts, error, loading } = useAppSelector(x => x.postSlice);
-  const { user } = useAppSelector(x => x.userslice);
+  const { posts} = useAppSelector(x => x.postSlice);
 
   const FollowHandler = () => {
     setFollowBtn("Following")

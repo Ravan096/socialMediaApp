@@ -7,7 +7,7 @@ import {
   Typography
 } from '@mui/material';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { registerUserAsync } from '../../redux/actions/userAction';
 import { useAppDispatch } from '../../redux/hooks';
 
@@ -16,8 +16,6 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const history = useNavigate();
   const dispatch = useAppDispatch();
 
   const SignUpHandle = () => {

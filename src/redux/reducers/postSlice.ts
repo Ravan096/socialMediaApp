@@ -63,9 +63,9 @@ const postSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
-        builder.addCase(likePostAsync.pending, (state) => {
-        }).addCase(likePostAsync.fulfilled, (state) => {
-        }).addCase(likePostAsync.rejected, (state) => {
+        builder.addCase(likePostAsync.pending, () => {
+        }).addCase(likePostAsync.fulfilled, () => {
+        }).addCase(likePostAsync.rejected, () => {
         })
 
         builder.addCase(savePostAsync.pending, () => {
