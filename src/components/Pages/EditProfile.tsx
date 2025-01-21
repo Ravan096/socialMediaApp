@@ -1,10 +1,9 @@
-import { Stack, Box, Typography, Avatar, Button, styled } from '@mui/material';
-import { Input, } from '@mui/joy';
-import { useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useAppDispatch } from '../../redux/hooks';
+import { Input, } from '@mui/joy';
+import { Avatar, Box, Button, Stack, styled, Typography } from '@mui/material';
+import { useState } from 'react';
 import { updateUserAsync } from '../../redux/actions/userAction';
-import moment from 'moment';
+import { useAppDispatch } from '../../redux/hooks';
 
 export const fileUploadCss = {
     cursor: 'pointer',

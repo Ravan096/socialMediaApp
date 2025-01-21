@@ -10,23 +10,9 @@ import { Avatar, Box, Button, Stack, Typography } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import img24 from '../../assets/2.jpg.webp';
-import img25 from '../../assets/5.jpg.webp';
-import img29 from '../../assets/7.jpg.webp';
-import img31 from '../../assets/banner5.jpg';
-import img26 from '../../assets/bg_1.jpg.webp';
-import img27 from '../../assets/bg_2.jpg.webp';
-import img30 from '../../assets/category-1.jpg';
-import img33 from '../../assets/image_5.jpg.webp';
-import img34 from '../../assets/item-14.jpg.webp';
-import img1 from '../../assets/jzc4hvrdcosbikvx0xzf.webp';
 import proimg from '../../assets/peakpx.jpg';
-import img11 from '../../assets/WallpaperDog-10916523.jpg';
-import img12 from '../../assets/WallpaperDog-20593498.jpg';
-import img13 from '../../assets/WallpaperDog-20618096.jpg';
-import img14 from '../../assets/WallpaperDog-20618169.jpg';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { meAsync } from '../../redux/actions/userAction';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const Userprofile = () => {
   const [value, setValue] = useState('1');
@@ -40,6 +26,7 @@ const Userprofile = () => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    console.warn(event)
   };
   return (
     <Stack sx={{
