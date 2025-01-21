@@ -9,7 +9,7 @@ import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import { Avatar, Box, Button, Divider, Drawer, Stack, SwipeableDrawer, Typography } from "@mui/material";
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import img24 from '../../assets/2.jpg.webp';
 import img25 from '../../assets/5.jpg.webp';
@@ -17,7 +17,10 @@ import img26 from '../../assets/bg_1.jpg.webp';
 import img22 from '../../assets/model_img_3-500x625.jpg';
 import proimg from '../../assets/peakpx.jpg';
 // import Comment from '../Comment/Comment';
-import moment from 'moment'
+import moment from 'moment';
+import { getPostOfFollwoing, likePostAsync, savePostAsync } from '../../redux/actions/postAction';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { Post } from '../../redux/reducers/postSlice';
 
 
 
@@ -26,34 +29,43 @@ import moment from 'moment'
 const Home = () => {
 
   const [followBtn, setFollowBtn] = useState("Follow");
+  const [Posts, setPosts] = useState<Post[]>([]);
   const [postoffollowing, setPostOfFollowing] = useState([]);
+  const dispatch = useAppDispatch();
+  const { posts, error, loading } = useAppSelector(x => x.postSlice);
+  const { user } = useAppSelector(x => x.userslice);
 
   const FollowHandler = () => {
     setFollowBtn("Following")
   }
 
   useEffect(() => {
-    GetPostOfFollowing();
-  }, [])
+    dispatch(getPostOfFollwoing({ args: "" }));
+  }, [dispatch])
 
-  const GetPostOfFollowing = async () => {
-    try {
-      axios.get("http://localhost:4000/api/v1/getfollowinguserposts", {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      }).then((res: any) => {
-        console.log("response", res.data);
-        if (res.data.success) {
-          setPostOfFollowing(res.data.posts)
-        }
-      }).catch((error) => {
-        console.log(error)
-      })
-    } catch (error) {
-      console.log(error)
-    }
+
+  useEffect(() => {
+    setPosts(posts)
+  }, [posts])
+
+  const savePost = (id: string) => {
+    setPosts(prevPosts =>
+      prevPosts.map((post: Post) =>
+        post._id === id ? { ...post, isSave: !post.isSave } : post
+      )
+    );
+    dispatch(savePostAsync({ postId: id }))
+  }
+
+
+  const likePost = (id: string) => {
+
+    setPosts(prevPosts =>
+      prevPosts.map((post: Post) =>
+        post._id === id ? { ...post, isLike: !post.isLike } : post
+      )
+    );
+    dispatch(likePostAsync({ postId: id }))
   }
 
 
@@ -161,9 +173,11 @@ const Home = () => {
           }}>
 
             {
-              postoffollowing.length > 0 ? (
-                postoffollowing.map((item: any) => (
-                  <HomeCard key={item._id} image={item.image} Caption={`${item.title} ${item.content}`} CreatedAt={item.CreatedAt} />
+              Posts.length > 0 ? (
+                Posts.map((item: any) => (
+                  <HomeCard key={item._id} image={item.image.url} Caption={`${item.title} ${item.content}`} CreatedAt={item.CreatedAt}
+                    savePostHandle={(id) => savePost(id)} id={item?._id} likePostHandle={(id) => likePost(id)}
+                    postOwner={`${item.userId.FirstName} ${item.userId.LastName}`} postLocation={item.Location} liked={item.isLike} save={item.isSave} />
                 ))
               ) :
                 (
@@ -429,23 +443,25 @@ const Home = () => {
 
 
       </Stack>
-
-
-
-
-
-
     </Stack>
   )
 }
 
+type HomeCardProp = {
+  id: string
+  image: string,
+  Caption: string,
+  CreatedAt: string,
+  savePostHandle: (id: string) => void
+  likePostHandle: (id: string) => void
+  postOwner: string
+  postLocation: string
+  liked: boolean
+  save: boolean
+}
 
-const HomeCard = ({ image, Caption, CreatedAt }: any) => {
+const HomeCard: FC<HomeCardProp> = ({ image, Caption, CreatedAt, id, savePostHandle, likePostHandle, postOwner, postLocation, liked, save }) => {
 
-
-  const [liked, setLiked] = useState(false);
-  const [save, setSave] = useState(false);
-  // const [c, setColor] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState([]);
 
@@ -466,16 +482,11 @@ const HomeCard = ({ image, Caption, CreatedAt }: any) => {
   }, [url]);
 
 
+
+
   const handleShowComments = () => {
     setShowComments(!showComments);
   };
-
-  const handleLike = () => {
-    setLiked(!liked);
-  }
-  const handleSave = () => {
-    setSave(!save);
-  }
 
 
   const [open, setOpen] = useState(false);
@@ -514,11 +525,11 @@ const HomeCard = ({ image, Caption, CreatedAt }: any) => {
         <Box sx={{ ml: 2 }}>
           <Link to={"/profile"}>
             <Typography color={"black"} sx={{ textDecorationLine: "none" }}>
-              _nae11
+              {postOwner}
             </Typography>
           </Link>
           <Typography>
-            Instagram HQ
+            {postLocation}
           </Typography>
         </Box>
 
@@ -561,8 +572,8 @@ const HomeCard = ({ image, Caption, CreatedAt }: any) => {
           justifyContent: "space-evenly",
         }}>
           {/* <FavoriteIcon onClick={handleClick}  style={{fontSize:"2.5rem",marginLeft:"2%",color: liked ? 'crimson' : 'black'}}/> */}
-          {liked ? <FavoriteIcon onClick={handleLike} style={{ fontSize: "2.5rem", marginLeft: "2%", color: 'crimson' }} /> :
-            <FavoriteBorderOutlinedIcon onClick={handleLike} style={{ fontSize: "2.5rem", marginLeft: "2%" }} />}
+          {liked ? <FavoriteIcon onClick={() => likePostHandle(id)} style={{ fontSize: "2.5rem", marginLeft: "2%", color: 'crimson' }} /> :
+            <FavoriteBorderOutlinedIcon onClick={() => likePostHandle(id)} style={{ fontSize: "2.5rem", marginLeft: "2%" }} />}
 
           {/* <ModeCommentOutlinedIcon onClick={handleShowComments} style={{fontSize:"2.5rem",marginLeft:"2%",}}/> */}
           <ModeCommentOutlinedIcon onClick={handleClick} style={{ fontSize: "2.5rem", marginLeft: "2%", }} />
@@ -574,8 +585,8 @@ const HomeCard = ({ image, Caption, CreatedAt }: any) => {
           alignItems: "center",
           justifyContent: "flex-end",
         }}>
-          {save ? <BookmarkRoundedIcon onClick={handleSave} style={{ fontSize: "2.5rem", marginRight: "3%" }} /> :
-            <BookmarkBorderOutlinedIcon onClick={handleSave} style={{ fontSize: "2.5rem", marginRight: "3%" }} />}
+          {save ? <BookmarkRoundedIcon onClick={() => savePostHandle(id)} style={{ fontSize: "2.5rem", marginRight: "3%" }} /> :
+            <BookmarkBorderOutlinedIcon onClick={() => savePostHandle(id)} style={{ fontSize: "2.5rem", marginRight: "3%" }} />}
         </Box>
 
 
@@ -643,8 +654,8 @@ const HomeCard = ({ image, Caption, CreatedAt }: any) => {
 
 
                         <Box sx={{ width: "10%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                          {liked ? <FavoriteIcon onClick={handleLike} style={{ fontSize: "1rem", color: 'crimson' }} /> :
-                            <FavoriteBorderOutlinedIcon onClick={handleLike} style={{ fontSize: "1rem", }} />}
+                          {liked ? <FavoriteIcon onClick={() => likePostHandle} style={{ fontSize: "1rem", color: 'crimson' }} /> :
+                            <FavoriteBorderOutlinedIcon onClick={() => likePostHandle} style={{ fontSize: "1rem", }} />}
                         </Box>
 
 

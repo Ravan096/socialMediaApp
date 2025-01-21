@@ -1,43 +1,51 @@
+import FacebookIcon from '@mui/icons-material/Facebook';
+import { Button, Input } from '@mui/joy';
 import {
   Box,
   Container,
-  Typography,
-  Stack
+  Stack,
+  Typography
 } from '@mui/material';
-import { Input, Button } from '@mui/joy';
-import { Link, useNavigate } from 'react-router-dom';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import { useState } from 'react';
-import { toast } from 'react-hot-toast';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { loginRequest, loginRequestFail, loginRequestSuccess } from '../../redux/reducers/userSlice';
+import { server } from '../../redux/store';
 
 const Login = () => {
-  const [email, setEmail] = useState<String>();
-  const [password, setPassword] = useState<String>();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   const history = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isAuthenticated } = useAppSelector(x => x.userslice);
+  useEffect(() => {
+    if (isAuthenticated)
+      history('/home')
+  }, [isAuthenticated])
 
 
-  const LoginHandle = async () => {
+  const LoginHandle = async (e: any) => {
     try {
-      axios.post("http://localhost:4000/api/v1/userLogin", {
-        Email: email, password: password
-      }, {
+      e.preventDefault();
+      dispatch(loginRequest());
+      const { data } = await axios.post(`${server}/userLogin`, { Email: email, password: password }, {
         headers: {
           'Content-Type': 'application/json'
-        }
-      }).then((res: any) => {
-        var token = res.data.token;
-        document.cookie = `token = ${token}`;
-        history("/home")
-        toast.success("Login success")
-      }).catch((error) => {
-        console.log(error)
-        toast.error("internal error")
-      })
-    } catch (error) {
-      console.log(error)
-      toast.error("internal error")
+        },
+        withCredentials: true
+      });
+      dispatch(loginRequestSuccess(data));
+      if (data.success) {
+        history('/home')
+      }
+
+      // dispatch(loginAsync({ email: email, password: password }));
+
+
+    } catch (error: any) {
+      dispatch(loginRequestFail(error.response.data.message))
     }
   }
 
@@ -76,7 +84,7 @@ const Login = () => {
             sx={{ mt: 2, width: [300, 1 / 2] }}
             value={email?.toString()}
             onChange={(e) => setEmail(e.target.value)}
-
+            onKeyPress={(e) => e.key === "Enter" ? LoginHandle(e) : null}
           />
 
           <Input placeholder="Password"
@@ -85,12 +93,13 @@ const Login = () => {
             sx={{ mt: 1, width: [300, 1 / 2] }}
             value={password?.toString()}
             onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" ? LoginHandle(e) : null}
           />
 
 
           <Button
             sx={{ width: [300, 1 / 2], mt: 2, backgroundColor: "rgb(50, 193, 250)" }}
-            // type="submit"
+            // type="submit" 
             onClick={LoginHandle}>
             Log in
           </Button>
