@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { PostDto } from "../reducers/postSlice";
+import { Post, PostDto } from "../reducers/postSlice";
 import { server } from "../store";
 
 export const getPostOfFollwoing = createAsyncThunk(
@@ -141,6 +141,26 @@ export const commentOnPostAsync = createAsyncThunk(
                 return rejectWithValue(error.message)
             }
             return rejectWithValue('something went wrong')
+        }
+    }
+)
+
+export const getPostByIdAsync = createAsyncThunk(
+    'getSinglePost',
+    async ({ postId }: { postId: string }, { rejectWithValue }) => {
+        try {
+            const {data} = await axios.get<Post>(`${server}/singlepost/${postId}`, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            return data
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message)
+            }
+            return rejectWithValue("internal error ")
         }
     }
 )

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { commentOnPostAsync, createPostAsync, getAllPostWithUserAsync, getPostOfFollwoing, getUserAllPost, likePostAsync, savePostAsync } from "../actions/postAction";
+import { commentOnPostAsync, createPostAsync, getAllPostWithUserAsync, getPostByIdAsync, getPostOfFollwoing, getUserAllPost, likePostAsync, savePostAsync } from "../actions/postAction";
+import { User } from "./userSlice";
 
 export interface PostDto {
     success: boolean;
@@ -11,13 +12,14 @@ export interface Post {
     _id: string;
     title: string;
     content: string;
-    userId: string;
+    userId: User;
     like: any[];
     CreatedAt: Date;
     comments: any[];
     __v: number;
-    isLike:boolean;
-    isSave:boolean
+    isLike: boolean;
+    isSave: boolean;
+    Location: string;
 }
 
 export interface Image {
@@ -29,12 +31,14 @@ export interface PostState {
     posts: Post[];
     loading: boolean;
     error: any;
+    singlePost: Post | null;
 }
 
 const initialState: PostState = {
     posts: [],
     loading: false,
-    error: null
+    error: null,
+    singlePost: null,
 }
 
 const postSlice = createSlice({
@@ -103,6 +107,17 @@ const postSlice = createSlice({
 
         }).addCase(commentOnPostAsync.rejected, () => {
 
+        })
+
+        builder.addCase(getPostByIdAsync.pending, (state) => {
+            state.loading = true
+        }).addCase(getPostByIdAsync.fulfilled, (state, action) => {
+            const post = action.payload
+            state.loading = false;
+            state.singlePost = post
+        }).addCase(getPostByIdAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload
         })
     }
 })

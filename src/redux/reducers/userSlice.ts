@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { changePasswordAsync, deleteUserAsync, forgetPasswordAsync, getAllUsersAsync, getSingleUserAsync, loginAsync, logoutAsync, meAsync, registerUserAsync, resetPasswordAsync, updateUserAsync } from '../actions/userAction';
+import { changePasswordAsync, deleteUserAsync, forgetPasswordAsync, getAllUsersAsync, getFollowingFollowersAsync, getSingleUserAsync, loginAsync, logoutAsync, meAsync, registerUserAsync, resetPasswordAsync, updateUserAsync } from '../actions/userAction';
 
 export interface User {
-    Avatar: Avtar;
+    Avatar: Avatar;
     _id: string;
     FullName: string;
     userName: string;
@@ -22,10 +22,25 @@ export interface User {
     __v: number;
 }
 
-export interface Avtar {
+export interface Avatar {
     public_id: string;
     url: string;
 }
+
+export interface FollowDto {
+    success: boolean;
+    userName:string;
+    followings: Follow[];
+    followers: Follow[];
+}
+
+export interface Follow {
+    _id: string;
+    userName?: string;
+    FullName: string;
+    Avatar: Avatar
+}
+
 
 
 export interface Post {
@@ -42,7 +57,10 @@ export interface UserDto {
     token: string;
 }
 
-
+export interface SingleUserDto {
+    success: boolean;
+    singleUser: User;
+}
 
 
 interface UserState {
@@ -51,6 +69,8 @@ interface UserState {
     user: User | null;
     message: string | null;
     error: string | null;
+    singleUser: User | null;
+    FollowerFollowing: FollowDto | null
 }
 
 const initialState: UserState = {
@@ -59,6 +79,8 @@ const initialState: UserState = {
     user: null,
     message: null,
     error: null,
+    singleUser: null,
+    FollowerFollowing: null
 }
 
 const useSlice = createSlice({
@@ -138,12 +160,16 @@ const useSlice = createSlice({
 
         })
 
-        builder.addCase(getSingleUserAsync.pending, () => {
-
-        }).addCase(getSingleUserAsync.fulfilled, () => {
-
-        }).addCase(getSingleUserAsync.rejected, () => {
-
+        builder.addCase(getSingleUserAsync.pending, (state) => {
+            state.loading = true
+        }).addCase(getSingleUserAsync.fulfilled, (state, action) => {
+            const { singleUser } = action.payload
+            state.loading = false;
+            state.singleUser = singleUser
+        }).addCase(getSingleUserAsync.rejected, (state, action) => {
+            const { message } = action.error
+            state.loading = false;
+            state.error = message || "Failed to get user detail"
         })
 
         builder.addCase(logoutAsync.pending, () => {
@@ -184,6 +210,16 @@ const useSlice = createSlice({
 
         }).addCase(updateUserAsync.rejected, () => {
 
+        })
+        builder.addCase(getFollowingFollowersAsync.pending, (state) => {
+            state.loading = true;
+        }).addCase(getFollowingFollowersAsync.fulfilled, (state, action) => {
+            state.loading = false;
+            state.FollowerFollowing = action.payload
+        }).addCase(getFollowingFollowersAsync.rejected, (state, action) => {
+            const { message } = action.error;
+            state.loading = false;
+            state.error = message || "Failed to get user"
         })
     }
 })

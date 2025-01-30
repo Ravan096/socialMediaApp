@@ -67,7 +67,7 @@ const Message = () => {
             <Box overflow={"auto"}>
                 {
                     sideUser && sideUser.length > 0 ? sideUser.map((user) => {
-                        return <MessageCard key={user._id} id={user._id} image={user.Avatar.url} Name={`${user.FirstName} ${user.LastName}`} />
+                        return <MessageCard key={user._id} id={user._id} image={user.Avatar.url} Name={`${user.FullName}`} />
                     }):(
                         <Typography>
                             No User Found

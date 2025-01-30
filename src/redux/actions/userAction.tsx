@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { server } from "../store";
 import axios from "axios";
-import { UserDto } from "../reducers/userSlice";
+import { FollowDto, SingleUserDto, UserDto } from "../reducers/userSlice";
 
 export const loginAsync = createAsyncThunk(
     'login',
@@ -119,7 +119,7 @@ export const getSingleUserAsync = createAsyncThunk(
                     'Content-Type': 'application/json'
                 }
             })
-            return data
+            return data as SingleUserDto
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message)
@@ -229,6 +229,26 @@ export const updateUserAsync = createAsyncThunk(
                 return rejectWithValue(error.message)
             }
             return rejectWithValue("something went wrong")
+        }
+    }
+)
+
+export const getFollowingFollowersAsync = createAsyncThunk(
+    "getFollowingFollowers",
+    async ({ userId }: { userId: string }, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.get(`${server}/userlist/${userId}`, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            return data as FollowDto
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message)
+            }
+            return rejectWithValue("Enternal error")
         }
     }
 )
