@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { changePasswordAsync, deleteUserAsync, forgetPasswordAsync, getAllUsersAsync, getFollowingFollowersAsync, getSingleUserAsync, loginAsync, logoutAsync, meAsync, registerUserAsync, resetPasswordAsync, updateUserAsync } from '../actions/userAction';
+import { changePasswordAsync, deleteUserAsync, followAndunfollowAsync, forgetPasswordAsync, getAllUsersAsync, getFollowingFollowersAsync, getSingleUserAsync, loginAsync, logoutAsync, meAsync, registerUserAsync, resetPasswordAsync, updateUserAsync } from '../actions/userAction';
 
 export interface User {
     Avatar: Avatar;
@@ -29,7 +29,7 @@ export interface Avatar {
 
 export interface FollowDto {
     success: boolean;
-    userName:string;
+    userName: string;
     followings: Follow[];
     followers: Follow[];
 }
@@ -220,6 +220,13 @@ const useSlice = createSlice({
             const { message } = action.error;
             state.loading = false;
             state.error = message || "Failed to get user"
+        })
+        builder.addCase(followAndunfollowAsync.pending, () => {
+
+        }).addCase(followAndunfollowAsync.fulfilled, () => {
+
+        }).addCase(followAndunfollowAsync.rejected, () => {
+
         })
     }
 })

@@ -10,14 +10,16 @@ import axios from "axios";
 import moment from "moment";
 import { FC, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import Homescaleton from "../Loader/Homescaleton";
+import { likePostAsync, savePostAsync } from "../../redux/actions/postAction";
 
 
 const Photos = () => {
 
     const [showComments, setShowComments] = useState(false);
     const [comment, setComment] = useState([]);
+    const dispatch = useAppDispatch();
     const { loading, singlePost } = useAppSelector(x => x.postSlice)
 
     const url = "https://jsonplaceholder.typicode.com/comments?_limit=20";
@@ -37,10 +39,11 @@ const Photos = () => {
     }, [url]);
 
     const likePostHandle = (id: string) => {
-        console.log(id)
+        dispatch(likePostAsync({postId:id}))
+        
     }
     const savePostHandle = (id: string) => {
-        console.log(id)
+        dispatch(savePostAsync({postId:id}))
     }
 
 

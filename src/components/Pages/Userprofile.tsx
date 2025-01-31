@@ -9,10 +9,11 @@ import TabPanel from '@mui/lab/TabPanel';
 import { Avatar, Box, Button, Modal, Stack, Typography } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import proimg from '../../assets/peakpx.jpg';
 import { meAsync } from '../../redux/actions/userAction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { getPostByIdAsync } from '../../redux/actions/postAction';
 
 const Userprofile = () => {
   const [value, setValue] = useState('1');
@@ -36,6 +37,7 @@ const Userprofile = () => {
 
   const { user } = useAppSelector(x => x.userslice)
   const dispatch = useAppDispatch();
+  const history = useNavigate();
 
   useEffect(() => {
     dispatch(meAsync({ args: '' }))
@@ -45,6 +47,11 @@ const Userprofile = () => {
     setValue(newValue);
     console.warn(event)
   };
+  const OpenPhoto = (id: string) => {
+    dispatch(getPostByIdAsync({ postId: id }));
+    history(`/photos`)
+
+  }
   return (
     <Stack sx={{
       // border:2,
@@ -357,7 +364,7 @@ const Userprofile = () => {
               // borderColor: "brown",
               height: ["", "77%"],
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "start",
               flexWrap: "wrap",
               width: "100%",
               mt: 1,
@@ -377,7 +384,7 @@ const Userprofile = () => {
                         backgroundColor: 'primary',
                         opacity: [0.9, 0.8, 0.7],
                       },
-                    }} key={item._id}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
+                    }} key={item._id} onClick={() => OpenPhoto(item._id)}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
                   ))
                 ) : (
                   <Typography>
@@ -397,7 +404,7 @@ const Userprofile = () => {
               borderColor: "brown",
               height: ["", "77%"],
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "start",
               flexWrap: "wrap",
               width: "100%",
               mt: 1,
@@ -418,7 +425,7 @@ const Userprofile = () => {
                         backgroundColor: 'primary',
                         opacity: [0.9, 0.8, 0.7],
                       },
-                    }} key={item._id}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
+                    }} key={item._id} onClick={() => OpenPhoto(item._id)}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
                   ))
                 ) : (
                   <Typography>
@@ -438,7 +445,7 @@ const Userprofile = () => {
               borderColor: "brown",
               height: ["", "77%"],
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "start",
               flexWrap: "wrap",
               width: "100%",
               mt: 1,
@@ -457,7 +464,7 @@ const Userprofile = () => {
                         backgroundColor: 'primary',
                         opacity: [0.9, 0.8, 0.7],
                       },
-                    }} key={item._id}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
+                    }} key={item._id} onClick={() => OpenPhoto(item._id)}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
                   ))
                 ) : (
                   <Typography>

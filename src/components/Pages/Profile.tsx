@@ -11,7 +11,7 @@ import Tab from '@mui/material/Tab';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import proimg from '../../assets/peakpx.jpg';
-import { getSingleUserAsync } from '../../redux/actions/userAction';
+import { followAndunfollowAsync, getSingleUserAsync } from '../../redux/actions/userAction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Homescaleton from '../Loader/Homescaleton';
 import { getPostByIdAsync } from '../../redux/actions/postAction';
@@ -56,6 +56,7 @@ const Profile = () => {
 
   const FollowHandler = () => {
     setFollowBtn("Following")
+    dispatch(followAndunfollowAsync({ userId: userId! }))
   }
 
   const OpenPhoto = (id: string) => {
@@ -106,30 +107,36 @@ const Profile = () => {
                 </Box>
                 <Box sx={{ width: "75%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                   <Box >
-                    <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
-                      {singleUser.posts.length}
-                    </Typography>
-                    <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                      Posts
-                    </Typography>
+                    <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
+                      <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
+                        {singleUser.posts.length}
+                      </Typography>
+                      <Typography fontWeight={"600"} sx={{ mt: 1 }}>
+                        Posts
+                      </Typography>
+                    </Link>
                   </Box>
 
                   <Box>
-                    <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
-                      {singleUser.followers.length}
-                    </Typography>
-                    <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                      followers
-                    </Typography>
+                    <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
+                      <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
+                        {singleUser.followers.length}
+                      </Typography>
+                      <Typography fontWeight={"600"} sx={{ mt: 1 }}>
+                        followers
+                      </Typography>
+                    </Link>
                   </Box>
 
                   <Box>
-                    <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
-                      {singleUser.following.length}
-                    </Typography>
-                    <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                      following
-                    </Typography>
+                    <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
+                      <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
+                        {singleUser.following.length}
+                      </Typography>
+                      <Typography fontWeight={"600"} sx={{ mt: 1 }}>
+                        following
+                      </Typography>
+                    </Link>
                   </Box>
 
                 </Box>
@@ -311,7 +318,7 @@ const Profile = () => {
                       // borderColor: "brown",
                       height: ["", "77%"],
                       display: "flex",
-                      justifyContent: "center",
+                      justifyContent: "start",
                       flexWrap: "wrap",
                       width: "100%",
                       mt: 1,
@@ -331,8 +338,8 @@ const Profile = () => {
                                 backgroundColor: 'primary',
                                 opacity: [0.9, 0.8, 0.7],
                               },
-                            }} key={item._id}>
-                              <img src={item.image.url} onClick={() => OpenPhoto(item._id)} style={{ height: "100%", width: "100%" }} />
+                            }} key={item._id} onClick={() => OpenPhoto(item._id)}>
+                              <img src={item.image.url} style={{ height: "100%", width: "100%" }} />
                             </Box>
                           ))
                         ) : (
@@ -353,7 +360,7 @@ const Profile = () => {
                       borderColor: "brown",
                       height: ["", "77%"],
                       display: "flex",
-                      justifyContent: "center",
+                      justifyContent: "start",
                       flexWrap: "wrap",
                       width: "100%",
                       mt: 1,
@@ -374,10 +381,8 @@ const Profile = () => {
                                 backgroundColor: 'primary',
                                 opacity: [0.9, 0.8, 0.7],
                               },
-                            }} key={item._id}>
-                              <Link to={`profile/${userId}/photos/${item._id}`}>
+                            }} key={item._id} onClick={() => OpenPhoto(item._id)}>
                                 <img src={item.image.url} style={{ height: "100%", width: "100%" }} />
-                              </Link>
                             </Box>
                           ))
                         ) : (
@@ -398,7 +403,7 @@ const Profile = () => {
                       borderColor: "brown",
                       height: ["", "77%"],
                       display: "flex",
-                      justifyContent: "center",
+                      justifyContent: "start",
                       flexWrap: "wrap",
                       width: "100%",
                       mt: 1,
@@ -417,10 +422,8 @@ const Profile = () => {
                                 backgroundColor: 'primary',
                                 opacity: [0.9, 0.8, 0.7],
                               },
-                            }} key={item._id}>
-                              <Link to={`profile/${userId}/photos/${item._id}`}>
+                            }} key={item._id} onClick={() => OpenPhoto(item._id)}>
                                 <img src={item.image.url} style={{ height: "100%", width: "100%" }} />
-                              </Link>
                             </Box>
                           ))
                         ) : (

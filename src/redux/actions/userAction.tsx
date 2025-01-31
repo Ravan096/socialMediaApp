@@ -248,7 +248,28 @@ export const getFollowingFollowersAsync = createAsyncThunk(
             if (error instanceof Error) {
                 return rejectWithValue(error.message)
             }
-            return rejectWithValue("Enternal error")
+            return rejectWithValue("Internal error")
+        }
+    }
+)
+
+
+export const followAndunfollowAsync = createAsyncThunk(
+    'follow&unfollow',
+    async ({ userId }: { userId: string }, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.get(`${server}/follow&unfollow/${userId}`, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': "application/json"
+                }
+            })
+            return data
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message)
+            }
+            return rejectWithValue("Internal Error")
         }
     }
 )

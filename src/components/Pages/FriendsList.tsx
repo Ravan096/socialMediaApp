@@ -1,17 +1,19 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import SearchIcon from '@mui/icons-material/Search';
 import { Input } from '@mui/joy';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Avatar, Box, Button, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Avatar, Box, Button, Stack, Tab, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useNavigate } from 'react-router-dom';
 import { getFollowingFollowersAsync } from '../../redux/actions/userAction';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const FriendsList = () => {
     const [message, setMessage] = useState<string>();
     const [value, setValue] = useState<string>('1');
     const { loading, FollowerFollowing } = useAppSelector(x => x.userslice)
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
 
 
@@ -34,7 +36,7 @@ const FriendsList = () => {
 
 
     return (
-        <Stack sx={{ border: 1, borderColor: "green" }}>
+        <Stack sx={{ borderColor: "green" }}>
             {
                 loading ? (
                     <Typography>
@@ -42,18 +44,20 @@ const FriendsList = () => {
                     </Typography>
                 ) : (
                     <>
-                        <Box sx={{ border: 1, borderColor: "red" }} width={"100%"} display={"flex"}>
-                            <ArrowBackIcon />
-                            <Typography>
-                                {FollowerFollowing?.userName}
-                            </Typography>
+                        <Box sx={{ borderColor: "red" }} width={"100%"}>
+                            <Box sx={{ width: "40%" }} display={"flex"} alignItems={"center"} justifyContent={"space-around"}>
+                                <KeyboardBackspaceIcon fontSize='large' onClick={() => navigate(-1)} />
+                                <Typography fontSize={"large"} fontWeight={"bold"}>
+                                    {FollowerFollowing?.userName}
+                                </Typography>
+                            </Box>
                         </Box>
 
                         <Box>
 
                             <TabContext value={value}>
                                 <Box sx={{
-                                    borderBottom: 1,
+                                    // borderBottom: 1,
                                     borderColor: "crimson",
                                     width: ["100%", "60%"],
                                     // height: "10%",
@@ -105,7 +109,7 @@ const FriendsList = () => {
 
                                     </TabList>
                                 </Box>
-                                <Box sx={{ border: 1, borderColor: "red" }} display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
+                                <Box sx={{ borderColor: "red" }} display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
                                     <SearchIcon />
                                     <Input variant="outlined"
                                         placeholder="Search..."
@@ -123,8 +127,8 @@ const FriendsList = () => {
                                         justifyContent: "center",
                                         flexWrap: "wrap",
                                         width: "100%",
-                                        // mt: 1,
-                                        // gap: 0.1,
+                                        mt: 1,
+                                        gap: 0.5,
                                         boxSizing: "border-box"
                                     }}>
                                         {
@@ -146,7 +150,7 @@ const FriendsList = () => {
                                         flexWrap: "wrap",
                                         width: "100%",
                                         mt: 1,
-                                        gap: 0.1
+                                        gap: 0.5
                                     }}>
                                         {
                                             FollowerFollowing?.followers.map((item) => (
@@ -167,7 +171,16 @@ const FriendsList = () => {
                                         flexWrap: "wrap",
                                         width: "100%",
                                         mt: 1,
-                                        gap: 0.1
+                                        gap: 0.5,
+                                        // overflowY: "auto",
+                                        // scrollbarWidth: "thin", 
+                                        // "&::-webkit-scrollbar": {
+                                        //     width: "6px", 
+                                        // },
+                                        // "&::-webkit-scrollbar-thumb": {
+                                        //     backgroundColor: "rgba(0,0,0,0.3)",
+                                        //     borderRadius: "10px",
+                                        // }
                                     }}>
                                         {
                                             FollowerFollowing?.followings.map((item) => (
@@ -221,7 +234,7 @@ const UserListCard: FC<UserListDto> = ({ name, url, username }) => {
         setFollowBtn("Following")
     }
     return (
-        <Box sx={{ border: 1, width: "100%", borderColor: "greenyellow" }} display={"flex"} alignItems={"center"} justifyContent={"space-evenly"}>
+        <Box sx={{ width: "98%", boxShadow: 3, bgcolor: "background.paper", borderRadius: 2, padding: 0.5 }} display={"flex"} alignItems={"center"} justifyContent={"space-evenly"}>
             <Box sx={{ width: "20%" }}>
                 <Avatar
                     src={url}
@@ -233,15 +246,15 @@ const UserListCard: FC<UserListDto> = ({ name, url, username }) => {
                         // mt: 2
                     }} />
             </Box>
-            <Box sx={{ width: "30%"  }}>
-                <Typography>
+            <Box sx={{ width: "40%" }}>
+                <Typography fontWeight={"bold"}>
                     {name}
                 </Typography>
-                <Typography>
+                <Typography fontSize={"body2"}>
                     {username}
                 </Typography>
             </Box>
-            <Box sx={{ width: "40%",textAlign:"center"}}>
+            <Box sx={{ width: "40%", textAlign: "center" }}>
                 <Button variant="contained" sx={{
                     backgroundColor: followBtn === 'Following' ? '#fff' : '#2a82c9',
                     color: followBtn === 'Following' ? '#000' : '#fff'
@@ -253,4 +266,4 @@ const UserListCard: FC<UserListDto> = ({ name, url, username }) => {
     )
 }
 
-export { UserListCard }
+export { UserListCard };
