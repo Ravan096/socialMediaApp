@@ -107,7 +107,7 @@ const Profile = () => {
                 </Box>
                 <Box sx={{ width: "75%", display: "flex", alignItems: "center", justifyContent: "space-evenly" }}>
                   <Box >
-                    <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
+                    <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
                       <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
                         {singleUser.posts.length}
                       </Typography>

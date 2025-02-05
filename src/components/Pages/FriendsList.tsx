@@ -4,7 +4,7 @@ import { Input } from '@mui/joy';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Avatar, Box, Button, Stack, Tab, Typography } from "@mui/material";
 import React, { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getFollowingFollowersAsync } from '../../redux/actions/userAction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
@@ -20,17 +20,20 @@ const FriendsList = () => {
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setValue(newValue);
         console.warn(event)
-    };
+    }
+
+   
 
 
     const sendHandler = () => {
-        console.log("send handler is working")
+        console.log("send handler is working");
     }
 
 
     useEffect(() => {
         dispatch(getFollowingFollowersAsync({ userId: "677cc451dbe1b57e24b800d5" }))
-    }, [])
+    }, []);
+
 
 
 
@@ -133,7 +136,7 @@ const FriendsList = () => {
                                     }}>
                                         {
                                             FollowerFollowing?.followers.map((item) => (
-                                                <UserListCard name={item.FullName} url={item.Avatar.url} username={item.userName!} />
+                                                <UserListCard name={item.FullName} url={item.Avatar.url} username={item.userName!} key={item._id} userId={item._id} />
                                             ))
                                         }
 
@@ -154,7 +157,7 @@ const FriendsList = () => {
                                     }}>
                                         {
                                             FollowerFollowing?.followers.map((item) => (
-                                                <UserListCard name={item.FullName} url={item.Avatar.url} username={item.userName!} />
+                                                <UserListCard name={item.FullName} url={item.Avatar.url} username={item.userName!} key={item._id} userId={item._id} />
                                             ))
                                         }
                                     </Box>
@@ -184,7 +187,7 @@ const FriendsList = () => {
                                     }}>
                                         {
                                             FollowerFollowing?.followings.map((item) => (
-                                                <UserListCard name={item.FullName} url={item.Avatar.url} username={item.userName!} />
+                                                <UserListCard name={item.FullName} url={item.Avatar.url} username={item.userName!} key={item._id} userId={item._id} />
                                             ))
                                         }
 
@@ -227,32 +230,37 @@ export interface UserListDto {
     url: string
     name: string
     username: string
+    userId: string
 }
-const UserListCard: FC<UserListDto> = ({ name, url, username }) => {
+const UserListCard: FC<UserListDto> = ({ name, url, username, userId }) => {
     const [followBtn, setFollowBtn] = useState("Follow");
     const FollowHandler = () => {
         setFollowBtn("Following")
     }
     return (
-        <Box sx={{ width: "98%", boxShadow: 3, bgcolor: "background.paper", borderRadius: 2, padding: 0.5 }} display={"flex"} alignItems={"center"} justifyContent={"space-evenly"}>
+        <Box sx={{ width: "98%", boxShadow: 1, bgcolor: "background.paper", borderRadius: 2, padding: 0.5 }} display={"flex"} alignItems={"center"} justifyContent={"space-evenly"}>
             <Box sx={{ width: "20%" }}>
-                <Avatar
-                    src={url}
-                    sx={{
-                        // border: 1,
-                        borderColor: "greenyellow",
-                        height: 52,
-                        width: 52,
-                        // mt: 2
-                    }} />
+                <Link to={`/profile/${userId}`} style={{ textDecoration: "none", color: "black" }}>
+                    <Avatar
+                        src={url}
+                        sx={{
+                            // border: 1,
+                            borderColor: "greenyellow",
+                            height: 52,
+                            width: 52,
+                            // mt: 2
+                        }} />
+                </Link>
             </Box>
             <Box sx={{ width: "40%" }}>
-                <Typography fontWeight={"bold"}>
-                    {name}
-                </Typography>
-                <Typography fontSize={"body2"}>
-                    {username}
-                </Typography>
+                <Link to={`/profile/${userId}`} style={{ textDecoration: "none", color: "black" }}>
+                    <Typography fontWeight={"bold"}>
+                        {name}
+                    </Typography>
+                    <Typography fontSize={"body2"}>
+                        {username}
+                    </Typography>
+                </Link>
             </Box>
             <Box sx={{ width: "40%", textAlign: "center" }}>
                 <Button variant="contained" sx={{
@@ -267,3 +275,4 @@ const UserListCard: FC<UserListDto> = ({ name, url, username }) => {
 }
 
 export { UserListCard };
+

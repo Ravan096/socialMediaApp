@@ -38,7 +38,8 @@ export interface Follow {
     _id: string;
     userName?: string;
     FullName: string;
-    Avatar: Avatar
+    Avatar: Avatar;
+    isFollow: boolean
 }
 
 

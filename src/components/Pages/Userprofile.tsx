@@ -195,7 +195,7 @@ const Userprofile = () => {
             justifyContent: "flex-start"
           }}>
 
-            <Typography variant='body1' fontWeight={"bold"} sx={{ mt: 1 }}>
+            <Typography variant='body1' fontWeight={"bold"} sx={{ mt: 1, ml: 1 }}>
               {user?.FullName}
             </Typography>
           </Box>
@@ -206,7 +206,8 @@ const Userprofile = () => {
             width: ["60%", "45%"]
           }}>
             <Typography variant="body2" sx={{
-              mt: 1
+              mt: 1,
+              ml: 1,
             }}>
 
               {user?.bio} <br />
@@ -217,20 +218,22 @@ const Userprofile = () => {
 
 
 
-          <Box sx={{ width: ["100%", "30%"], mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
-            <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
-              <Typography fontSize={""} m={0} p={0}>
-                Professional Dashboard
-              </Typography>
-              <Typography fontSize={"small"} m={0} p={0}>
-                New looks are available
-              </Typography>
-            </Link>
-          </Box>
-          <Box sx={{ width: ["100%", "30%"] }}>
-            <Link to={'/editprofile'}>
-              <Button variant="contained" fullWidth sx={{ color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
-                Edit Profile</Button></Link>
+          <Box sx={{width:"100%",display:"flex", flexDirection:"column", alignItems:"center"}}>
+            <Box sx={{ width: ["98%", "30%"],py:0.5, mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" }, borderRadius: 2 }}>
+              <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
+                <Typography fontSize={""} m={0} p={0} ml={1}>
+                  Professional Dashboard
+                </Typography>
+                <Typography fontSize={"small"} m={0} p={0} ml={1}>
+                  New looks are available
+                </Typography>
+              </Link>
+            </Box>
+            <Box sx={{ width: ["98%", "30%"], borderRadius: 2 }}>
+              <Link to={'/editprofile'}>
+                <Button variant="contained" fullWidth sx={{ color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
+                  Edit Profile</Button></Link>
+            </Box>
           </Box>
         </Box>
 

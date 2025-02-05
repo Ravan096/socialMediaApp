@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './redux/store';
 import { clearError, clearMessage } from './redux/reducers/userSlice';
 import FriendsList from './components/Pages/FriendsList';
+import StoryContainer from './components/Pages/StoryContainer ';
 
 function App() {
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ function App() {
             <Route path='/message' element={<Message />} />
             <Route path='/reels' element={<Reels />} />
             <Route path='/settingsandactivity' element={<SettingActivity />} />
+            <Route path='/story' element={<StoryContainer />} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
         </div>
