@@ -38,6 +38,9 @@ const Login = () => {
       });
       dispatch(loginRequestSuccess(data));
       if (data.success) {
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+        }
         history('/home')
       }
 
