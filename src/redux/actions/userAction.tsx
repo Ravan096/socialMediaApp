@@ -16,6 +16,9 @@ export const loginAsync = createAsyncThunk(
                 },
                 withCredentials: true
             });
+            if (data.token) {
+                localStorage.setItem('token', data.token);
+            }
 
             return data as UserDto
 
@@ -34,7 +37,12 @@ export const meAsync = createAsyncThunk(
     'me',
     async ({ }: { args: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
+            console.log(token)
             const { data } = await axios.get(`${server}/me`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
                 withCredentials: true
             })
             return data as UserDto
@@ -73,9 +81,10 @@ export const getAllUsersAsync = createAsyncThunk(
     'getAllUsers',
     async ({ }: { args: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.get(`${server}/getUser`, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 },
                 withCredentials: true
             })
@@ -93,9 +102,10 @@ export const deleteUserAsync = createAsyncThunk(
     'deleteUser',
     async ({ userId }: { userId: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.delete(`${server}/deleteUser/${userId}`, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 },
                 withCredentials: true
             })
@@ -114,10 +124,11 @@ export const getSingleUserAsync = createAsyncThunk(
     'getSingleUser',
     async ({ userId }: { userId: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.get(`${server}/getSingleUser/${userId}`, {
                 withCredentials: true,
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 }
             })
             return data as SingleUserDto
@@ -135,12 +146,14 @@ export const logoutAsync = createAsyncThunk(
     'logout',
     async ({ }: { args: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.get(`${server}/logout`, {
                 withCredentials: true,
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 }
             })
+            localStorage.removeItem('token');
             return data
         } catch (error) {
             if (error instanceof Error) {
@@ -155,10 +168,11 @@ export const changePasswordAsync = createAsyncThunk(
     'changePassword',
     async ({ oldPassword, newPassword }: { oldPassword: string, newPassword: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.post(`${server}/changepassword`, { oldPassword, newPassword }, {
                 withCredentials: true,
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 }
             })
             return data
@@ -217,11 +231,12 @@ export const updateUserAsync = createAsyncThunk(
     async ({ file, userName, Email, dob, gender, website, state, bio, mobile }:
         { file: any, userName: string, Email: string, dob: string, gender: string, website: string, state: string, bio: string, mobile: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.post(`${server}/updateUser`,
                 { file, userName, Email, bio, dob, gender, state, website, mobile }, {
                 withCredentials: true,
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Authorization': `Bearer ${token}`
                 }
             })
             return data
@@ -238,11 +253,12 @@ export const getFollowingFollowersAsync = createAsyncThunk(
     "getFollowingFollowers",
     async ({ userId }: { userId: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.get(`${server}/userlist/${userId}`, {
                 withCredentials: true,
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    'Authorization': `Bearer ${token}`
+                },
             })
             return data as FollowDto
         } catch (error) {
@@ -259,10 +275,11 @@ export const followAndunfollowAsync = createAsyncThunk(
     'follow&unfollow',
     async ({ userId }: { userId: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.get(`${server}/follow&unfollow/${userId}`, {
                 withCredentials: true,
                 headers: {
-                    'Content-Type': "application/json"
+                    'Authorization': `Bearer ${token}`
                 }
             })
             return data

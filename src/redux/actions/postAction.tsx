@@ -7,8 +7,12 @@ export const getPostOfFollwoing = createAsyncThunk(
     'posts',
     async ({ }: { args: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.get(`${server}/getfollowinguserposts`, {
                 withCredentials: true,
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                },
             });
             const response = data as PostDto
             return response
@@ -26,8 +30,12 @@ export const savePostAsync = createAsyncThunk(
     'save_post',
     async ({ postId }: { postId: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const res = await axios.get(`${server}/savePost/${postId}`, {
-                withCredentials: true
+                withCredentials: true,
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
             });
             return res
         } catch (error) {
@@ -43,8 +51,12 @@ export const likePostAsync = createAsyncThunk(
     'like_post',
     async ({ postId }: { postId: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const res = axios.get(`${server}/likeAndUnlikePost/${postId}`, {
-                withCredentials: true
+                withCredentials: true,
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                },
             })
             return res
         } catch (error) {
@@ -61,12 +73,13 @@ export const createPostAsync = createAsyncThunk(
     'createPost',
     async ({ content, title, Location, file }: { content: string, title: string, Location: string, file: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.post(`${server}/createPost`, {
                 content, title, Location, file
             }, {
                 withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
+                headers:{
+                    'Authorization': `Bearer ${token}`
                 }
             })
             return data
@@ -85,11 +98,12 @@ export const getAllPostWithUserAsync = createAsyncThunk(
     'getAllPostWithUser',
     async ({ }: { args: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.get(`${server}/getAllPostWithUsers`, {
                 withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                },
             })
             return data
         } catch (error) {
@@ -106,10 +120,11 @@ export const getUserAllPost = createAsyncThunk(
     'getUserAllPost',
     async ({ userId }: { userId: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.get(`${server}/getUserAllPosts/${userId}`, {
                 withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
+                headers:{
+                    'Authorization': `Bearer ${token}`
                 }
             })
             return data
@@ -127,12 +142,13 @@ export const commentOnPostAsync = createAsyncThunk(
     'commentOnPost',
     async ({ postId, comment }: { postId: string, comment: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.post(`${server}/commentonpost/${postId}`, {
                 comment
             }, {
                 withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
+                headers:{
+                    'Authorization': `Bearer ${token}`
                 }
             })
             return data
@@ -149,10 +165,11 @@ export const getPostByIdAsync = createAsyncThunk(
     'getSinglePost',
     async ({ postId }: { postId: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const {data} = await axios.get<Post>(`${server}/singlepost/${postId}`, {
                 withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
+                headers:{
+                    'Authorization': `Bearer ${token}`
                 }
             })
             return data
