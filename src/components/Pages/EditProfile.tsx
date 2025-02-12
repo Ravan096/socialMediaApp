@@ -4,7 +4,8 @@ import { Avatar, Box, Button, Stack, styled, Typography } from '@mui/material';
 import { useState } from 'react';
 import { updateUserAsync } from '../../redux/actions/userAction';
 import { useAppDispatch } from '../../redux/hooks';
-
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+import { useNavigate } from 'react-router-dom';
 export const fileUploadCss = {
     cursor: 'pointer',
     marginLeft: '-6%',
@@ -34,6 +35,7 @@ function EditProfile() {
     const [avatar, setAvatar] = useState('');
 
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
 
     const changeImageHandler = (e: any) => {
@@ -82,21 +84,26 @@ function EditProfile() {
             <Box sx={{ height: ["150vh", "90vh"] }}>
                 <Box sx={{ width: ["98%", "30%"], margin: "auto", height: "100%", justifyContent: "space-around", display: "flex", flexDirection: "column", }}>
                     {/* <Box alignSelf={"flex-end"}><Button>Save</Button></Box> */}
-                    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                        <Avatar
-                            src={imageprev}
-                            sx={{
-                                //  border:1,
-                                borderColor: "greenyellow",
-                                height: 92,
-                                width: 92,
-                            }} />
+                    <Box sx={{display: "flex", justifyContent: "center",width:"100%" }}>
+                        <Box sx={{width:"10%"}}>
+                            <KeyboardBackspaceIcon fontSize='large' onClick={() => navigate(-1)} />
+                        </Box>
+                        <Box sx={{display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "start", width:"90%"}}>
+                            <Avatar
+                                src={imageprev}
+                                sx={{
+                                    //  border:1,
+                                    borderColor: "greenyellow",
+                                    height: 92,
+                                    width: 92,
+                                }} />
 
 
-                        <Button component="label" variant="text" startIcon={<CloudUploadIcon />}>
-                            Change Profile Picture
-                            <VisuallyHiddenInput type="file" onChange={changeImageHandler} />
-                        </Button>
+                            <Button component="label" variant="text" startIcon={<CloudUploadIcon />}>
+                                Change Profile Picture
+                                <VisuallyHiddenInput type="file" onChange={changeImageHandler} />
+                            </Button>
+                        </Box>
                     </Box>
 
                     <Box sx={{ display: "flex", alignItems: "center", justifyContent: ["space-between", "space-between"], }}>

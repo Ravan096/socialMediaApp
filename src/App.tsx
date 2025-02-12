@@ -13,6 +13,7 @@ const Search = lazy(() => import("./components/Pages/Search"));
 const EditProfile = lazy(() => import("./components/Pages/EditProfile"));
 const PageNotFound = lazy(() => import("./components/Pages/PageNotFound"));
 const SettingActivity = lazy(() => import("./components/Pages/SettingActivity"));
+const Photos = lazy(() => import("./components/Pages/Photos"));
 import Cam from './components/Pages/Cam';
 import toast, { Toaster } from 'react-hot-toast';
 import Header from './components/Pages/Header';
@@ -22,6 +23,8 @@ import Reels from './components/Pages/Reels';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './redux/store';
 import { clearError, clearMessage } from './redux/reducers/userSlice';
+import FriendsList from './components/Pages/FriendsList';
+import StoryContainer from './components/Pages/StoryContainer ';
 
 function App() {
   const dispatch = useDispatch();
@@ -39,25 +42,28 @@ function App() {
   return (
     <Router>
       <Suspense fallback={<Homescaleton />}>
-        <div style={{paddingBottom:"15%"}}>
-        <Routes>
-          <Route path='/home' element={<Home />} />
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/' element={<Login />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/forgotpassword' element={<ForgotPassword />} />
-          <Route path='/userprofile' element={<Userprofile />} />
-          <Route path='/explore' element={<Explore />} />
-          <Route path='/chat' element={<Chat />} />
-          <Route path='/like' element={<Like />} />
-          <Route path='/cam' element={<Cam />} />
-          <Route path='/editprofile' element={<EditProfile />} />
-          <Route path='/search' element={<Search />} />
-          <Route path='/message' element={<Message />} />
-          <Route path='/reels' element={<Reels />} />
-          <Route path='/settingsandactivity' element={<SettingActivity />} />
-          <Route path='*' element={<PageNotFound />} />
-        </Routes>
+        <div style={{ paddingBottom: "15%" }}>
+          <Routes>
+            <Route path='/home' element={<Home />} />
+            <Route path='/profile/:userId' element={<Profile />} />
+            <Route path='/photos' element={<Photos />} />
+            <Route path='/userlist' element={<FriendsList />} />
+            <Route path='/' element={<Login />} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/forgotpassword' element={<ForgotPassword />} />
+            <Route path='/userprofile' element={<Userprofile />} />
+            <Route path='/explore' element={<Explore />} />
+            <Route path='/chat' element={<Chat />} />
+            <Route path='/like' element={<Like />} />
+            <Route path='/cam' element={<Cam />} />
+            <Route path='/editprofile' element={<EditProfile />} />
+            <Route path='/search' element={<Search />} />
+            <Route path='/message' element={<Message />} />
+            <Route path='/reels' element={<Reels />} />
+            <Route path='/settingsandactivity' element={<SettingActivity />} />
+            <Route path='/story' element={<StoryContainer />} />
+            <Route path='*' element={<PageNotFound />} />
+          </Routes>
         </div>
       </Suspense>
 

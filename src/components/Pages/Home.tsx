@@ -174,8 +174,8 @@ const Home = () => {
               Posts.length > 0 ? (
                 Posts.map((item: any) => (
                   <HomeCard key={item._id} image={item.image.url} Caption={`${item.title} ${item.content}`} CreatedAt={item.CreatedAt}
-                    savePostHandle={(id) => savePost(id)} id={item?._id} likePostHandle={(id) => likePost(id)}
-                    postOwner={`${item.userId.FirstName} ${item.userId.LastName}`} postLocation={item.Location} liked={item.isLike} save={item.isSave} />
+                    savePostHandle={(id) => savePost(id)} id={item?._id} likePostHandle={(id) => likePost(id)} postOwnerId={item.userId._id}
+                    postOwner={item.userId.FullName} postLocation={item.Location} liked={item.isLike} save={item.isSave} />
                 ))
               ) :
                 (
@@ -456,9 +456,10 @@ type HomeCardProp = {
   postLocation: string
   liked: boolean
   save: boolean
+  postOwnerId:string
 }
 
-const HomeCard: FC<HomeCardProp> = ({ image, Caption, CreatedAt, id, savePostHandle, likePostHandle, postOwner, postLocation, liked, save }) => {
+const HomeCard: FC<HomeCardProp> = ({ image, Caption, CreatedAt, id, savePostHandle, likePostHandle, postOwner, postLocation, liked, save,postOwnerId }) => {
 
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState([]);
@@ -509,7 +510,7 @@ const HomeCard: FC<HomeCardProp> = ({ image, Caption, CreatedAt, id, savePostHan
         display: "flex",
         alignItems: "center",
       }}>
-        <Link to={"/profile"}>
+        <Link to={`/profile/${postOwnerId}`}>
           <Avatar
             src={proimg}
             sx={{
@@ -521,7 +522,7 @@ const HomeCard: FC<HomeCardProp> = ({ image, Caption, CreatedAt, id, savePostHan
             }} />
         </Link>
         <Box sx={{ ml: 2 }}>
-          <Link to={"/profile"}>
+          <Link to={`/profile/${postOwnerId}`}>
             <Typography color={"black"} sx={{ textDecorationLine: "none" }}>
               {postOwner}
             </Typography>

@@ -6,19 +6,38 @@ import SwitchAccountOutlinedIcon from '@mui/icons-material/SwitchAccountOutlined
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { Avatar, Box, Button, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Modal, Stack, Typography } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import proimg from '../../assets/peakpx.jpg';
 import { meAsync } from '../../redux/actions/userAction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { getPostByIdAsync } from '../../redux/actions/postAction';
 
 const Userprofile = () => {
   const [value, setValue] = useState('1');
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "100%",
+    // bgcolor: 'background.paper',
+    // border: '2px solid #000',
+    // boxShadow: 24,
+    p: 4,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  };
 
   const { user } = useAppSelector(x => x.userslice)
   const dispatch = useAppDispatch();
+  const history = useNavigate();
 
   useEffect(() => {
     dispatch(meAsync({ args: '' }))
@@ -28,6 +47,11 @@ const Userprofile = () => {
     setValue(newValue);
     console.warn(event)
   };
+  const OpenPhoto = (id: string) => {
+    dispatch(getPostByIdAsync({ postId: id }));
+    history(`/photos`)
+
+  }
   return (
     <Stack sx={{
       // border:2,
@@ -99,15 +123,19 @@ const Userprofile = () => {
           justifyContent: "space-around"
         }}>
 
-          <Avatar
-            src={user?.Avatar.url}
-            sx={{
-              //  border:1,
-              borderColor: "greenyellow",
-              height: 72,
-              width: 72,
-              mt: 1
-            }} />
+          <Box sx={{
+            // border:1
+          }} onClick={handleOpen}>
+            <Avatar
+              src={user?.Avatar.url}
+              sx={{
+                //  border:1,
+                borderColor: "greenyellow",
+                height: 72,
+                width: 72,
+                mt: 1
+              }} />
+          </Box>
 
           <Box sx={{
             display: "flex",
@@ -167,7 +195,7 @@ const Userprofile = () => {
             justifyContent: "flex-start"
           }}>
 
-            <Typography variant='body1' fontWeight={"bold"} sx={{ mt: 1 }}>
+            <Typography variant='body1' fontWeight={"bold"} sx={{ mt: 1, ml: 1 }}>
               {user?.FullName}
             </Typography>
           </Box>
@@ -178,7 +206,8 @@ const Userprofile = () => {
             width: ["60%", "45%"]
           }}>
             <Typography variant="body2" sx={{
-              mt: 1
+              mt: 1,
+              ml: 1,
             }}>
 
               {user?.bio} <br />
@@ -189,20 +218,22 @@ const Userprofile = () => {
 
 
 
-          <Box sx={{ width: ["100%", "30%"], mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
-            <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
-              <Typography fontSize={""} m={0} p={0}>
-                Professional Dashboard
-              </Typography>
-              <Typography fontSize={"small"} m={0} p={0}>
-                New looks are available
-              </Typography>
-            </Link>
-          </Box>
-          <Box sx={{ width: ["100%", "30%"] }}>
-            <Link to={'/editprofile'}>
-              <Button variant="contained" fullWidth sx={{ color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
-                Edit Profile</Button></Link>
+          <Box sx={{width:"100%",display:"flex", flexDirection:"column", alignItems:"center"}}>
+            <Box sx={{ width: ["98%", "30%"],py:0.5, mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" }, borderRadius: 2 }}>
+              <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
+                <Typography fontSize={""} m={0} p={0} ml={1}>
+                  Professional Dashboard
+                </Typography>
+                <Typography fontSize={"small"} m={0} p={0} ml={1}>
+                  New looks are available
+                </Typography>
+              </Link>
+            </Box>
+            <Box sx={{ width: ["98%", "30%"], borderRadius: 2 }}>
+              <Link to={'/editprofile'}>
+                <Button variant="contained" fullWidth sx={{ color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
+                  Edit Profile</Button></Link>
+            </Box>
           </Box>
         </Box>
 
@@ -336,7 +367,7 @@ const Userprofile = () => {
               // borderColor: "brown",
               height: ["", "77%"],
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "start",
               flexWrap: "wrap",
               width: "100%",
               mt: 1,
@@ -356,7 +387,7 @@ const Userprofile = () => {
                         backgroundColor: 'primary',
                         opacity: [0.9, 0.8, 0.7],
                       },
-                    }} key={item._id}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
+                    }} key={item._id} onClick={() => OpenPhoto(item._id)}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
                   ))
                 ) : (
                   <Typography>
@@ -364,80 +395,6 @@ const Userprofile = () => {
                   </Typography>
                 )
               }
-
-
-              {/* <Box sx={{
-                width: "33%",
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img34} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: "33%",
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img33} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: "33%",
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img31} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: "33%",
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img30} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: "33%",
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }}><img src={img29} style={{ height: "100%", width: "100%" }} /></Box>
-              <Box sx={{
-                width: "33%",
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: "33%",
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} />
-              <Box sx={{
-                width: "33%",
-                height: 110,
-                backgroundColor: 'greenyellow',
-                '&:hover': {
-                  backgroundColor: 'primary',
-                  opacity: [0.9, 0.8, 0.7],
-                },
-              }} /> */}
 
 
 
@@ -450,7 +407,7 @@ const Userprofile = () => {
               borderColor: "brown",
               height: ["", "77%"],
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "start",
               flexWrap: "wrap",
               width: "100%",
               mt: 1,
@@ -471,7 +428,7 @@ const Userprofile = () => {
                         backgroundColor: 'primary',
                         opacity: [0.9, 0.8, 0.7],
                       },
-                    }} key={item._id}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
+                    }} key={item._id} onClick={() => OpenPhoto(item._id)}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
                   ))
                 ) : (
                   <Typography>
@@ -491,7 +448,7 @@ const Userprofile = () => {
               borderColor: "brown",
               height: ["", "77%"],
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "start",
               flexWrap: "wrap",
               width: "100%",
               mt: 1,
@@ -510,7 +467,7 @@ const Userprofile = () => {
                         backgroundColor: 'primary',
                         opacity: [0.9, 0.8, 0.7],
                       },
-                    }} key={item._id}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
+                    }} key={item._id} onClick={() => OpenPhoto(item._id)}><img src={item.image.url} style={{ height: "100%", width: "100%" }} /></Box>
                   ))
                 ) : (
                   <Typography>
@@ -518,7 +475,7 @@ const Userprofile = () => {
                   </Typography>
                 )
               }
-              
+
 
 
 
@@ -528,166 +485,26 @@ const Userprofile = () => {
       </Box>
 
 
-      {/* <Box sx={{
-                            
-                            mt:1,
-                            width:"100%",height:"10%",
-                  display:"flex",alignItems:"center",
-                justifyContent:"center"}}>
-                  <Box sx={{
-                            
-                            borderColor:"crimson",
-                            width:["100%","60%"],
-                            // height:"10%",
-                            display:"flex",
-                            justifyContent:"space-around",
-                            alignItems:"center",
-                            p:1
-                           }}>
 
-
-                    <Box sx={{
-                              width:"25%",
-                              height:"100%",
-                              display:"flex",
-                              justifyContent:"center",
-                              alignItems:"center"
-                              }}>
-                    <GridOnRoundedIcon style={{fontSize:"3rem"}}/>
-                    <Typography sx={{ml:1,display:["none","block"]}}>
-                      POSTS
-                    </Typography>
-                    </Box>
-
-                    <Box sx={{
-                              width:"25%",
-                              height:"100%",
-                              display:"flex",
-                              justifyContent:"center",
-                              alignItems:"center"
-                              }}>
-                    <LiveTvRoundedIcon style={{fontSize:"3rem"}}/>
-                    <Typography sx={{ml:1,display:["none","block"]}}>
-                      IGTV
-                    </Typography>
-                    </Box>
-
-                    <Box sx={{
-                              width:"25%",
-                              height:"100%",
-                              display:"flex",
-                              justifyContent:"center",
-                              alignItems:"center"
-                              }}>
-                    <BookmarkBorderOutlinedIcon style={{fontSize:"3rem"}}/>
-                    <Typography sx={{ml:1,display:["none","block"]}}>
-                      SAVED 
-                    </Typography>
-                    </Box>
-
-                    <Box sx={{
-                              width:"25%",
-                              height:"100%",
-                              display:"flex",
-                              justifyContent:"center",
-                              alignItems:"center"
-                              }}>
-
-                    <SwitchAccountOutlinedIcon style={{fontSize:"3rem"}}/>
-                    <Typography sx={{ml:1,display:["none","block"]}}>
-                      TAGGED IN
-                    </Typography>
-                    </Box>
-
-                  </Box>
-
-
-                  </Box> */}
-
-
-
-
-      {/* image post start */}
-      {/* <Box sx={{
-                          //  border:1,
-                           borderColor:"brown",
-                           height:["","77%"],
-                           display:"flex",
-                           justifyContent:"center",
-                           flexWrap:"wrap",
-                           width:"100%",
-                           mt:1,
-                           gap:4}}>
-
-                  <Box sx={{
-                            width: 100,
-                            height: 100,
-                            backgroundColor: 'greenyellow',
-                            '&:hover': {
-                            backgroundColor: 'primary',
-                            opacity: [0.9, 0.8, 0.7],},}}/>
-                  <Box sx={{
-                            width: 100,
-                            height: 100,
-                            backgroundColor: 'greenyellow',
-                            '&:hover': {
-                            backgroundColor: 'primary',
-                            opacity: [0.9, 0.8, 0.7],},}}/>
-                  <Box sx={{
-                            width: 100,
-                            height: 100,
-                            backgroundColor: 'greenyellow',
-                            '&:hover': {
-                            backgroundColor: 'primary',
-                            opacity: [0.9, 0.8, 0.7],},}}/>
-                  <Box sx={{
-                            width: 100,
-                            height: 100,
-                            backgroundColor: 'greenyellow',
-                            '&:hover': {
-                            backgroundColor: 'primary',
-                            opacity: [0.9, 0.8, 0.7],},}}/>
-                  <Box sx={{
-                            width: 100,
-                            height: 100,
-                            backgroundColor: 'greenyellow',
-                            '&:hover': {
-                            backgroundColor: 'primary',
-                            opacity: [0.9, 0.8, 0.7],},}}/>
-                  <Box sx={{
-                            width: 100,
-                            height: 100,
-                            backgroundColor: 'greenyellow',
-                            '&:hover': {
-                            backgroundColor: 'primary',
-                            opacity: [0.9, 0.8, 0.7],},}}/>
-                  <Box sx={{
-                            width: 100,
-                            height: 100,
-                            backgroundColor: 'greenyellow',
-                            '&:hover': {
-                            backgroundColor: 'primary',
-                            opacity: [0.9, 0.8, 0.7],},}}/>
-                  <Box sx={{
-                            width: 100,
-                            height: 100,
-                            backgroundColor: 'greenyellow',
-                            '&:hover': {
-                            backgroundColor: 'primary',
-                            opacity: [0.9, 0.8, 0.7],},}}/>
-                  <Box sx={{
-                            width: 100,
-                            height: 100,
-                            backgroundColor: 'greenyellow',
-                            '&:hover': {
-                            backgroundColor: 'primary',
-                            opacity: [0.9, 0.8, 0.7],},}}/>
-
-
-
-                  </Box> */}
-
-
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Box>
+              <img src={user?.Avatar.url} alt="Profile" style={{
+                width: '350px',
+                height: '350px',
+                borderRadius: '50%',
+                objectFit: 'cover',
+              }} />
+            </Box>
+          </Box>
+        </Modal>
+      </div>
     </Stack>
   )
 }

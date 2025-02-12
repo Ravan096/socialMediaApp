@@ -10,8 +10,7 @@ export interface SideUserDto {
 export interface SideUser {
     Avatar: Tar;
     _id: string;
-    FirstName: string;
-    LastName: string;
+    FullName: string;
     Email: string;
     posts: string[];
     followers: string[];
