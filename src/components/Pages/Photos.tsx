@@ -8,11 +8,11 @@ import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
 import { Avatar, Box, Divider, Drawer, SwipeableDrawer, Typography } from "@mui/material";
 import axios from "axios";
 import moment from "moment";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { likePostAsync, savePostAsync } from "../../redux/actions/postAction";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import Homescaleton from "../Loader/Homescaleton";
-import { likePostAsync, savePostAsync } from "../../redux/actions/postAction";
 
 
 const Photos = () => {

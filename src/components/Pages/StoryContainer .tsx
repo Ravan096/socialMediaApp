@@ -59,6 +59,7 @@ const StoryViewer: React.FC<StoryProps> = ({ stories, currentStoryIndex, setCurr
         const interval = setInterval(() => {
             setTimer((prev) => {
                 if (prev >= 30) {
+                    console.log(timer)
                     setCurrentStoryIndex((prevIndex:any) => (prevIndex + 1) % stories.length);
                     return 0; // Reset the timer after switching the story
                 }
