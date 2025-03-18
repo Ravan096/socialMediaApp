@@ -30,7 +30,8 @@ const Message = () => {
     }, [sideBarUser])
 
     const goToChat = (id: string) => {
-        history(`/chat`)
+        history(`/chat`);
+        console.log(id)
 
     }
 
