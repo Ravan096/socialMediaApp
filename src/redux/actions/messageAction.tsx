@@ -6,11 +6,12 @@ export const getSidebarUserAsync = createAsyncThunk(
     "getSidebarUsers",
     async ({ }: { args: string }, { rejectWithValue }) => {
         try {
+            const token = localStorage.getItem('token');
             const { data } = await axios.get(`${server}/getallsidebarcharuser`, {
-                withCredentials: true,
                 headers: {
-                    'Content-Type': 'application/json'
-                }
+                    'Authorization': `Bearer ${token}`
+                },
+                withCredentials: true
             })
             return data
         } catch (error) {

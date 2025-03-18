@@ -50,7 +50,6 @@ const Userprofile = () => {
   const OpenPhoto = (id: string) => {
     dispatch(getPostByIdAsync({ postId: id }));
     history(`/photos`)
-
   }
   return (
     <Stack sx={{

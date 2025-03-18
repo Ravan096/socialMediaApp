@@ -7,7 +7,7 @@ import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import { Input } from "@mui/joy";
 import { FC, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { getSidebarUserAsync } from "../../redux/actions/messageAction";
 import { SideUser } from "../../redux/reducers/messageSlice";
@@ -15,6 +15,7 @@ import { SideUser } from "../../redux/reducers/messageSlice";
 const Message = () => {
     const [message, setMessage] = useState('');
     const [sideUser, setSideUser] = useState<SideUser[]>([])
+    const history = useNavigate();
     const sendHandler = () => {
         console.log("message send successfully")
     }
@@ -27,7 +28,12 @@ const Message = () => {
     useEffect(() => {
         setSideUser(sideBarUser);
     }, [sideBarUser])
-    
+
+    const goToChat = (id: string) => {
+        history(`/chat`)
+
+    }
+
 
     return (
         <Stack sx={{
@@ -67,11 +73,11 @@ const Message = () => {
             <Box overflow={"auto"}>
                 {
                     sideUser && sideUser.length > 0 ? sideUser.map((user) => {
-                        return <MessageCard key={user._id} id={user._id} image={user.Avatar.url} Name={`${user.FullName}`} />
-                    }):(
+                        return <MessageCard key={user._id} id={user._id} image={user.Avatar.url} Name={`${user.FullName}`} openChat={() => goToChat(user._id)} />
+                    }) : (
                         <Typography>
                             No User Found
-                            </Typography>
+                        </Typography>
                     )
                 }
 
@@ -87,12 +93,13 @@ type MessageCardProp = {
     id: string
     image: string,
     Name: string,
+    openChat: () => void
 }
 
 
-const MessageCard: FC<MessageCardProp> = ({ image, Name }) => {
+const MessageCard: FC<MessageCardProp> = ({ image, Name, openChat }) => {
     return (
-        <Box display={"flex"} mt={1}>
+        <Box display={"flex"} mt={1} onClick={openChat} sx={{boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'}}>
             <Box sx={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Avatar sx={{ bgcolor: deepPurple[500] }} src={image}>{Name}</Avatar>
 
