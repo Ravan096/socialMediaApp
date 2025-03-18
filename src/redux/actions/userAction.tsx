@@ -38,7 +38,6 @@ export const meAsync = createAsyncThunk(
     async ({ }: { args: string }, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem('token');
-            console.log(token)
             const { data } = await axios.get(`${server}/me`, {
                 headers: {
                     'Authorization': `Bearer ${token}`

@@ -127,7 +127,7 @@ const Userprofile = () => {
             // border:1
           }} onClick={handleOpen}>
             <Avatar
-              src={user?.Avatar.url}
+              src={user?.Avatar?.url}
               sx={{
                 //  border:1,
                 borderColor: "greenyellow",
@@ -155,22 +155,26 @@ const Userprofile = () => {
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
               <Typography fontWeight={"600"} sx={{ mt: 1 }}>
                 {user?.followers.length}
               </Typography>
               <Typography>
                 followers
               </Typography>
+              </Link>
             </Box>
 
 
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
               <Typography fontWeight={"600"} sx={{ mt: 1 }}>
                 {user?.following.length}
               </Typography>
               <Typography>
                 following
               </Typography>
+              </Link>
             </Box>
 
           </Box>
