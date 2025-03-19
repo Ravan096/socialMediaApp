@@ -29,6 +29,8 @@ import StoryContainer from './components/Pages/StoryContainer ';
 function App() {
   const dispatch = useDispatch();
   const { error, message } = useSelector((state: RootState) => state.userslice);
+  const hideNav = ['/', 'forgotpassword', 'signup'];
+  const currentLocation = window.location.pathname;
   useEffect(() => {
     if (error) {
       toast.error(error);
@@ -67,7 +69,10 @@ function App() {
         </div>
       </Suspense>
 
-      <Header />
+      {
+        !hideNav.includes(currentLocation) && <Header />
+      }
+
 
 
       <Toaster position="top-center"

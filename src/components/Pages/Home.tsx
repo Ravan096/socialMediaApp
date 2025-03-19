@@ -70,8 +70,8 @@ const Home = () => {
 
 
   return (
-    <Stack>
-      <Box width={"100%"} display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
+    <Stack width={["100%","60%"]} ml={["0%","20%"]} >
+      <Box width={"100%"} display={"flex"} alignItems={"center"} justifyContent={"space-between"} sx={{boxShadow: '2px 4px 10px rgba(0, 0, 0, 0.05)'}}>
 
         <Box sx={{
           width: "20%",
@@ -98,7 +98,7 @@ const Home = () => {
         </Box>
       </Box>
 
-      <Box display={"flex"} alignItems={"center"} justifyContent={"space-evenly"}>
+      <Box display={"flex"} alignItems={"center"} justifyContent={["space-evenly","space-around"]} mt={.5}>
         <Avatar
           src={proimg}
           sx={{
@@ -233,7 +233,8 @@ const Home = () => {
             // border:1,
             borderColor: "red",
             width: "40%",
-            display: ["none", "block"]
+            display: ["none", "block"],
+            boxShadow:3
           }}>
 
             <Box sx={{
