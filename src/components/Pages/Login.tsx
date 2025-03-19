@@ -55,7 +55,7 @@ const Login = () => {
 
   return (
     <Container sx={{
-      border: 1,
+      // border: 1,
       height: ['100vh', '90vh'],
       display: "flex",
       alignItems: "center",

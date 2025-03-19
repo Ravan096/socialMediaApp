@@ -183,8 +183,9 @@ const Chat = () => {
             width: ["100%", "60%"],
             height: "15%"
           }}>
-
-            <KeyboardBackspaceIcon style={{ fontSize: "3rem" }} />
+            <Link to={'/message'}>
+            <KeyboardBackspaceIcon style={{ fontSize: "2rem", color:"black" }} />
+            </Link>
             <Avatar
               src={proimg}
               sx={{
