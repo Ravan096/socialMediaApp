@@ -16,6 +16,8 @@ import SendIcon from '@mui/icons-material/Send';
 import PhoneIcon from '@mui/icons-material/Phone';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { getSocket } from '../../socket';
+import { useChatDetailsQuery } from '../../redux/api/api';
 
 
 
@@ -51,9 +53,16 @@ const Chat = () => {
     { id: 1, user: "Alice", message: "Will do! Thanks again 😊" },
   ];
 
+  const chatDetails = useChatDetailsQuery({ chatId: "67ed3658d24ab1bc49bf7c47" });
+  console.log(chatDetails)
 
-  const sendHandler = () => {
+  const socket = getSocket();
+
+  const sendMessageHandler = (e: any) => {
+    e.preventDefault();
+    if (!message.trim()) return
     console.log(message);
+    socket?.emit("NEW_MESSAGES", { chatId: '67ed3658d24ab1bc49bf7c47', members: ['memeber'], message: message })
     setMessage("");
   }
 
@@ -184,7 +193,7 @@ const Chat = () => {
             height: "15%"
           }}>
             <Link to={'/message'}>
-            <KeyboardBackspaceIcon style={{ fontSize: "2rem", color:"black" }} />
+              <KeyboardBackspaceIcon style={{ fontSize: "2rem", color: "black" }} />
             </Link>
             <Avatar
               src={proimg}
@@ -267,7 +276,7 @@ const Chat = () => {
                 }}
               />
               <Button
-                onClick={sendHandler}
+                onClick={sendMessageHandler}
                 variant="contained"
                 color="error"
                 sx={{ width: '20%' }}
