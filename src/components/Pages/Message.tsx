@@ -11,11 +11,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { getSidebarUserAsync } from "../../redux/actions/messageAction";
 import { SideUser } from "../../redux/reducers/messageSlice";
+import {getSocket} from "../../socket";
 
 const Message = () => {
     const [message, setMessage] = useState('');
     const [sideUser, setSideUser] = useState<SideUser[]>([])
     const history = useNavigate();
+    const socket = getSocket();
     const sendHandler = () => {
         console.log("message send successfully")
     }

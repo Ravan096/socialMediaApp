@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Post, PostDto } from "../reducers/postSlice";
-import { server } from "../store";
+import { server } from "../../constants/config";
 
 export const getPostOfFollwoing = createAsyncThunk(
     'posts',

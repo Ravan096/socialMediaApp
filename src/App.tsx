@@ -25,6 +25,7 @@ import { RootState } from './redux/store';
 import { clearError, clearMessage } from './redux/reducers/userSlice';
 import FriendsList from './components/Pages/FriendsList';
 import StoryContainer from './components/Pages/StoryContainer ';
+import { SocketProvider } from './socket'
 
 function App() {
   const dispatch = useDispatch();
@@ -55,12 +56,20 @@ function App() {
             <Route path='/forgotpassword' element={<ForgotPassword />} />
             <Route path='/userprofile' element={<Userprofile />} />
             <Route path='/explore' element={<Explore />} />
-            <Route path='/chat' element={<Chat />} />
+            <Route path='/chat' element={
+              <SocketProvider>
+                <Chat />
+              </SocketProvider>
+            } />
             <Route path='/like' element={<Like />} />
             <Route path='/cam' element={<Cam />} />
             <Route path='/editprofile' element={<EditProfile />} />
             <Route path='/search' element={<Search />} />
-            <Route path='/message' element={<Message />} />
+            <Route path='/message' element={
+              <SocketProvider>
+                <Message />
+              </SocketProvider>
+            } />
             <Route path='/reels' element={<Reels />} />
             <Route path='/settingsandactivity' element={<SettingActivity />} />
             <Route path='/story' element={<StoryContainer />} />

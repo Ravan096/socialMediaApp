@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userslice from './reducers/userSlice';
 import postSlice from './reducers/postSlice';
 import messageSlice from './reducers/messageSlice';
+import api from "./api/api";
 
 
 
@@ -9,13 +10,12 @@ const store = () => configureStore({
     reducer: {
         userslice,
         postSlice,
-        messageSlice
-    }
+        messageSlice,
+        [api.reducerPath]: api.reducer
+    },
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware().concat(api.middleware),
 });
-
-export const server2 = "https://socialmedianodeserver.onrender.com/api/v1";
-export const server1 = "http://localhost:4000/api/v1";
-export const server = "https://social-media-mitra-junction.vercel.app/api/v1";
 
 export default store
 
