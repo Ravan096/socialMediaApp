@@ -11,13 +11,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { getSidebarUserAsync } from "../../redux/actions/messageAction";
 import { SideUser } from "../../redux/reducers/messageSlice";
-import {getSocket} from "../../socket";
+import { getSocket } from "../../socket";
 
 const Message = () => {
     const [message, setMessage] = useState('');
-    const [sideUser, setSideUser] = useState<SideUser[]>([])
+    const [sideUser, setSideUser] = useState<SideUser[]>([]);
     const history = useNavigate();
     const socket = getSocket();
+    socket?.on('connect', () => {
+        console.log('connected to socket');
+    });
     const sendHandler = () => {
         console.log("message send successfully")
     }
@@ -32,9 +35,7 @@ const Message = () => {
     }, [sideBarUser])
 
     const goToChat = (id: string) => {
-        history(`/chat`);
-        console.log(id)
-
+        history(`/chat/${id}`);
     }
 
 
@@ -102,7 +103,7 @@ type MessageCardProp = {
 
 const MessageCard: FC<MessageCardProp> = ({ image, Name, openChat }) => {
     return (
-        <Box display={"flex"} mt={1} onClick={openChat} sx={{boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)'}}>
+        <Box display={"flex"} mt={1} onClick={openChat} sx={{ boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)' }}>
             <Box sx={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Avatar sx={{ bgcolor: deepPurple[500] }} src={image}>{Name}</Avatar>
 

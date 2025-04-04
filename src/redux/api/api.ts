@@ -13,7 +13,7 @@ const api = createApi({
             return headers;
         },
     }),
-    tagTypes: ["Chat"],
+    tagTypes: ["Chat", "Message"],
     endpoints: (builder) => ({
         chatDetails: builder.query({
             query: ({ chatId, populate = false }) => {
@@ -25,10 +25,17 @@ const api = createApi({
                 }
             },
             providesTags: ["Chat"]
+        }),
+        getMessages: builder.query({
+            query: ({ userId }) => ({
+                url: `getMessages/${userId}`,
+                credentials: "include"
+            })
         })
     })
-});
+
+})
 
 
 export default api;
-export const { useChatDetailsQuery } = api;
+export const { useChatDetailsQuery, useGetMessagesQuery } = api;

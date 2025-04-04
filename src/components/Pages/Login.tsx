@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { loginRequest, loginRequestFail, loginRequestSuccess } from '../../redux/reducers/userSlice';
-import { server } from '../../redux/store';
+import { server } from '../../constants/config';
 
 const Login = () => {
   const [email, setEmail] = useState<string>('');
