@@ -1,6 +1,14 @@
 <<<<<<< HEAD
 # socialMediaApp
 =======
+![iPhone-13-PRO-mitrajunction netlify app (6)](https://github.com/user-attachments/assets/e555dcf2-9fd6-4cad-a480-4edab9fde60c)
+![iPhone-13-PRO-mitrajunction netlify app](https://github.com/user-attachments/assets/1aa3f66e-3127-4296-a706-662300dac6b2)
+![iPhone-13-PRO-mitrajunction netlify app (1)](https://github.com/user-attachments/assets/ad300468-ef92-403f-8ca9-96240dfa3ab4)
+![iPhone-13-PRO-mitrajunction netlify app (2)](https://github.com/user-attachments/assets/7e05e9ca-5c23-4180-8437-8c91df1e3b61)
+![iPhone-13-PRO-mitrajunction netlify app (3)](https://github.com/user-attachments/assets/7c1586d2-c862-478d-bd71-a1f4411aab24)
+![iPhone-13-PRO-mitrajunction netlify app (4)](https://github.com/user-attachments/assets/9d470a58-7d62-4729-b370-797b2c36663c)
+![iPhone-13-PRO-mitrajunction netlify app (5)](https://github.com/user-attachments/assets/ce1c182b-a3f4-4227-9b4c-24857cd947d5)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
