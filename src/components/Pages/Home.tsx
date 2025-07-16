@@ -70,8 +70,8 @@ const Home = () => {
 
 
   return (
-    <Stack width={["100%","60%"]} ml={["0%","20%"]} >
-      <Box width={"100%"} display={"flex"} alignItems={"center"} justifyContent={"space-between"} sx={{boxShadow: '2px 4px 10px rgba(0, 0, 0, 0.05)'}}>
+    <Stack width={["100%","60%"]} ml={["0%","21%"]} >
+      <Box width={["100%","50%"]} display={"flex"} alignItems={"center"} justifyContent={["space-between","Start"]} gap={[0,20]} sx={{boxShadow: '2px 4px 10px rgba(0, 0, 0, 0.05)'}}>
 
         <Box sx={{
           width: "20%",
@@ -88,7 +88,7 @@ const Home = () => {
           </Typography>
         </Box>
 
-        <Box width={"40%"} display={"flex"} justifyContent={"space-around"}>
+        <Box width={"40%"} display={"flex"} justifyContent={["space-around","start"]} gap={[0,5]}>
           <Link to={"/like"}>
             <FavoriteBorderOutlinedIcon style={{ fontSize: "2rem", color: "black" }} />
           </Link>
@@ -98,7 +98,7 @@ const Home = () => {
         </Box>
       </Box>
 
-      <Box display={"flex"} alignItems={"center"} justifyContent={["space-evenly","space-around"]} mt={.5}>
+      <Box display={"flex"} alignItems={"center"} justifyContent={["space-evenly","start"]} mt={.5} gap={[0,5]}>
         <Avatar
           src={proimg}
           sx={{
@@ -147,7 +147,7 @@ const Home = () => {
 
       <Stack sx={{
         // border:1,
-        height: "96vh", width: "80%", margin: "auto"
+        height: "96vh", width: "80%", margin: ["auto",0]
       }}>
 
 
@@ -233,7 +233,7 @@ const Home = () => {
             // border:1,
             borderColor: "red",
             width: "40%",
-            display: ["none", "block"],
+            display: ["none", "none"],
             boxShadow:3
           }}>
 

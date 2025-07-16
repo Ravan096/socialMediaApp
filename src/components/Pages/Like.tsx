@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const Like = () => {
   return (
-    <Stack sx={{
+    <Stack ml={["0%","21%"]} sx={{
       // border:1,
       width: {
         lg: '80%',

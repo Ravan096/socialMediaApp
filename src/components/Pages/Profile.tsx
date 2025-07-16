@@ -15,6 +15,8 @@ import { followAndunfollowAsync, getSingleUserAsync } from '../../redux/actions/
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import Homescaleton from '../Loader/Homescaleton';
 import { getPostByIdAsync } from '../../redux/actions/postAction';
+import axios from 'axios';
+import { server } from '../../constants/config';
 
 
 const Profile = () => {
@@ -63,7 +65,19 @@ const Profile = () => {
     dispatch(getPostByIdAsync({ postId: id }))
     history('/photos')
   }
-
+  const handleStartChat = async (userId: string) => {
+    const token = localStorage.getItem('token');
+    const res = await axios.post(`${server}/startorgetchat`, {
+      participantId: userId
+    }, {
+      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    const chatId = res.data.chat._id;
+    history(`/chat/${chatId}`);
+  }
 
   const onClickMailtoHandler = () => {
     window.location.href = 'mailto:max.mustermann@example.com?body=My custom mail body';
@@ -77,9 +91,9 @@ const Profile = () => {
       height: ["", "96vh"], width: "100%", margin: "auto"
     }}>
       {
-        loading === true && (singleUser === null) ? (
+        loading === true && (singleUser?.singleUser === null) ? (
           <Homescaleton />
-        ) : (singleUser) && (
+        ) : (singleUser?.singleUser) && (
           <Stack direction={["column", "row"]} sx={{ height: "100%" }}>
             {/*profile start here*/}
 
@@ -96,7 +110,7 @@ const Profile = () => {
               <Box sx={{ display: "flex", width: ["90%", ""] }}>
                 <Box onClick={handleOpen} sx={{ width: "25%", display: 'flex', alignItems: "center", justifyContent: "center" }}>
                   <Avatar
-                    src={singleUser.Avatar.url}
+                    src={singleUser?.singleUser?.Avatar?.url}
                     sx={{
                       // border: 1,
                       borderColor: "greenyellow",
@@ -109,7 +123,7 @@ const Profile = () => {
                   <Box >
                     <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
                       <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
-                        {singleUser.posts.length}
+                        {singleUser.singleUser?.posts.length}
                       </Typography>
                       <Typography fontWeight={"600"} sx={{ mt: 1 }}>
                         Posts
@@ -120,7 +134,7 @@ const Profile = () => {
                   <Box>
                     <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
                       <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
-                        {singleUser.followers.length}
+                        {singleUser?.singleUser?.followers.length}
                       </Typography>
                       <Typography fontWeight={"600"} sx={{ mt: 1 }}>
                         followers
@@ -131,7 +145,7 @@ const Profile = () => {
                   <Box>
                     <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
                       <Typography fontWeight={"600"} sx={{ mt: 1, textAlign: "center" }}>
-                        {singleUser.following.length}
+                        {singleUser.singleUser?.following.length}
                       </Typography>
                       <Typography fontWeight={"600"} sx={{ mt: 1 }}>
                         following
@@ -144,11 +158,11 @@ const Profile = () => {
 
               <Box sx={{ width: "85%" }}>
                 <Typography variant='h5' sx={{ mt: 1 }}>
-                  {singleUser.FullName}
+                  {singleUser?.singleUser?.FullName}
                   <VerifiedRoundedIcon style={{ color: "rgb(50, 193, 250)" }} />
                 </Typography>
-                <Typography sx={{ mt: 1 }}>{singleUser.userName}</Typography>
-                <Typography sx={{ mt: 1, mb: 1 }}>{singleUser.bio}</Typography>
+                <Typography sx={{ mt: 1 }}>{singleUser?.singleUser?.userName}</Typography>
+                <Typography sx={{ mt: 1, mb: 1 }}>{singleUser?.singleUser?.bio}</Typography>
 
 
 
@@ -170,7 +184,7 @@ const Profile = () => {
                 }} onClick={FollowHandler}>
                   {followBtn}</Button>
 
-                <Button variant="text" sx={{ color: "black" }}>
+                <Button variant="text" sx={{ color: "black" }} onClick={() => handleStartChat(singleUser?.singleUser?._id)}>
                   Message</Button>
 
                 <Button onClick={onClickMailtoHandler} variant="text" sx={{ color: "black" }}>
@@ -327,9 +341,9 @@ const Profile = () => {
                     }}>
 
                       {
-                        singleUser && singleUser.posts.length > 0 ? (
+                        singleUser && singleUser?.singleUser?.posts?.length > 0 ? (
 
-                          singleUser.posts.map((item) => (
+                          singleUser.singleUser.posts.map((item) => (
                             <Box sx={{
                               width: "33%",
                               height: 110,
@@ -370,9 +384,9 @@ const Profile = () => {
 
 
                       {
-                        singleUser && singleUser.posts.length > 0 ? (
+                        singleUser && singleUser?.singleUser?.posts?.length > 0 ? (
 
-                          singleUser.posts.map((item) => (
+                          singleUser.singleUser.posts.map((item) => (
                             <Box sx={{
                               width: "33%",
                               height: 110,
@@ -382,7 +396,7 @@ const Profile = () => {
                                 opacity: [0.9, 0.8, 0.7],
                               },
                             }} key={item._id} onClick={() => OpenPhoto(item._id)}>
-                                <img src={item.image.url} style={{ height: "100%", width: "100%" }} />
+                              <img src={item.image.url} style={{ height: "100%", width: "100%" }} />
                             </Box>
                           ))
                         ) : (
@@ -411,9 +425,9 @@ const Profile = () => {
                     }}>
 
                       {
-                        singleUser && singleUser.posts.length > 0 ? (
+                        singleUser && singleUser?.singleUser?.posts.length > 0 ? (
 
-                          singleUser.posts.map((item) => (
+                          singleUser.singleUser.posts.map((item) => (
                             <Box sx={{
                               width: "33%",
                               height: 110,
@@ -423,7 +437,7 @@ const Profile = () => {
                                 opacity: [0.9, 0.8, 0.7],
                               },
                             }} key={item._id} onClick={() => OpenPhoto(item._id)}>
-                                <img src={item.image.url} style={{ height: "100%", width: "100%" }} />
+                              <img src={item.image.url} style={{ height: "100%", width: "100%" }} />
                             </Box>
                           ))
                         ) : (
@@ -455,7 +469,7 @@ const Profile = () => {
               >
                 <Box sx={style}>
                   <Box>
-                    <img src={singleUser.Avatar.url} alt="Profile" style={{
+                    <img src={singleUser?.singleUser?.Avatar?.url} alt="Profile" style={{
                       width: '350px',
                       height: '350px',
                       borderRadius: '50%',

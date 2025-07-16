@@ -13,10 +13,10 @@ const api = createApi({
             return headers;
         },
     }),
-    tagTypes: ["Chat"],
+    tagTypes: ["Chat", "Message"],
     endpoints: (builder) => ({
         chatDetails: builder.query({
-            query: ({ chatId, populate = false }) => {
+            query: ({ chatId, populate = true }) => {
                 let url = `chat/${chatId}`;
                 if (populate) url += "?populate=true"
                 return {
@@ -25,10 +25,31 @@ const api = createApi({
                 }
             },
             providesTags: ["Chat"]
+        }),
+        getMessages: builder.query({
+            query: ({ chatId }) => ({
+                url: `getMessages/${chatId}`,
+                method: 'GET',
+                credentials: "include"
+            }),
+            providesTags: ["Message"]
+        }),
+
+        sendMessage: builder.mutation({
+            query: ({ chatId, content }) => ({
+                url: `messages/${chatId}`,
+                method: 'POST',
+                body: { msgText: content }
+            }),
+            invalidatesTags: ['Message']
         })
     })
-});
+
+})
 
 
 export default api;
-export const { useChatDetailsQuery } = api;
+export const { useChatDetailsQuery,
+    useGetMessagesQuery,
+    useSendMessageMutation
+} = api;

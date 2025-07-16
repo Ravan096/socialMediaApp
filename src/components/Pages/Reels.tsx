@@ -156,15 +156,18 @@ const ReelItem = ({ reel }: { reel: Reel }) => {
 
   return (
     <Box
+    ml={["0%","21%"]}
+    width={["100%","25%"]}
       sx={{
         position: "relative",
         height: "100vh",
-        width: "100%",
+        // width: "100%",
         overflow: "hidden",
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
         bgcolor: "black",
+        border:1,
       }}
     >
       {/* Video */}

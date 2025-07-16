@@ -16,7 +16,7 @@ const Search = () => {
         console.log("message send successfully")
     }
     return (
-        <Box height={"100%"}>
+        <Box height={"100%"} ml={["0%","21%"]} width={["100%","20%"]}>
 
             <Box display={"flex"} alignItems={"center"} >
                 <SearchIcon style={{ fontSize: "2.5rem", marginTop: 5 }} />

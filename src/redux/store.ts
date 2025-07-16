@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userslice from './reducers/userSlice';
 import postSlice from './reducers/postSlice';
 import messageSlice from './reducers/messageSlice';
+import variableSlice from './reducers/variableSlice'
 import api from "./api/api";
 
 
@@ -11,6 +12,7 @@ const store = () => configureStore({
         userslice,
         postSlice,
         messageSlice,
+        variableSlice,
         [api.reducerPath]: api.reducer
     },
     middleware: (getDefaultMiddleware) =>

@@ -52,9 +52,9 @@ const Userprofile = () => {
     history(`/photos`)
   }
   return (
-    <Stack sx={{
+    <Stack ml={["0%","21%"]} width={["100%","25%"]} sx={{
       // border:2,
-      height: ["", "96vh"], width: "100%", margin: "auto"
+      height: ["", "96vh"], margin: "auto"
     }}>
 
 
@@ -63,7 +63,7 @@ const Userprofile = () => {
       <Box sx={{
         // border:1,
         borderColor: "red",
-        height: ["", "30%"],
+        height: ["", "40%"],
         width: "100%",
         display: "flex",
         flexDirection: ["column", "column"],
@@ -75,7 +75,7 @@ const Userprofile = () => {
         <Box sx={{
           // border: 1,
           borderColor: "limegreen",
-          width: ["100%", "30%"],
+          width: ["100%", "100%"],
           height: "100%",
           display: "flex",
           alignItems: "center",
@@ -91,7 +91,7 @@ const Userprofile = () => {
           }}>
 
             <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-              {user?.userName}
+              {user?.user.userName}
             </Typography>
 
             <Box
@@ -115,7 +115,7 @@ const Userprofile = () => {
         <Box sx={{
           // border:1, 
           borderColor: "limegreen",
-          width: ["100%", "30%"],
+          width: ["100%", "100%"],
           height: "100%",
           display: "flex",
           alignItems: "center",
@@ -126,7 +126,7 @@ const Userprofile = () => {
             // border:1
           }} onClick={handleOpen}>
             <Avatar
-              src={user?.Avatar?.url}
+              src={user?.user.Avatar?.url}
               sx={{
                 //  border:1,
                 borderColor: "greenyellow",
@@ -146,7 +146,7 @@ const Userprofile = () => {
 
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
               <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                {user?.posts?.length}
+                {user?.user.posts?.length}
               </Typography>
               <Typography>
                 Posts
@@ -156,7 +156,7 @@ const Userprofile = () => {
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
               <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                {user?.followers?.length}
+                {user?.user.followers?.length}
               </Typography>
               <Typography>
                 followers
@@ -168,7 +168,7 @@ const Userprofile = () => {
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
               <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                {user?.following?.length}
+                {user?.user.following?.length}
               </Typography>
               <Typography>
                 following
@@ -193,13 +193,13 @@ const Userprofile = () => {
           <Box sx={{
             display: "flex",
             alignItems: "center",
-            width: ["100%", "30%"],
+            width: ["100%", "100%"],
             // border:1,
             justifyContent: "flex-start"
           }}>
 
             <Typography variant='body1' fontWeight={"bold"} sx={{ mt: 1, ml: 1 }}>
-              {user?.FullName}
+              {user?.user.FullName}
             </Typography>
           </Box>
 
@@ -213,8 +213,8 @@ const Userprofile = () => {
               ml: 1,
             }}>
 
-              {user?.bio} <br />
-              {user?.website}
+              {user?.user.bio} <br />
+              {user?.user.website}
             </Typography>
           </Box>
 
@@ -222,7 +222,7 @@ const Userprofile = () => {
 
 
           <Box sx={{width:"100%",display:"flex", flexDirection:"column", alignItems:"center"}}>
-            <Box sx={{ width: ["98%", "30%"],py:0.5, mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" }, borderRadius: 2 }}>
+            <Box sx={{ width: ["98%", "98%"],py:0.5, mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" }, borderRadius: 2 }}>
               <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
                 <Typography fontSize={""} m={0} p={0} ml={1}>
                   Professional Dashboard
@@ -232,7 +232,7 @@ const Userprofile = () => {
                 </Typography>
               </Link>
             </Box>
-            <Box sx={{ width: ["98%", "30%"], borderRadius: 2 }}>
+            <Box sx={{ width: ["98%", "98%"], borderRadius: 2 }}>
               <Link to={'/editprofile'}>
                 <Button variant="contained" fullWidth sx={{ color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
                   Edit Profile</Button></Link>
@@ -320,7 +320,7 @@ const Userprofile = () => {
           <Box sx={{
             // borderBottom: 1,
             // borderColor: "crimson",
-            width: ["100%", "60%"],
+            width: ["100%", "100%"],
             // height:"10%",
             display: "flex",
             justifyContent: "space-around",
@@ -379,9 +379,9 @@ const Userprofile = () => {
             }}>
 
               {
-                user && user?.posts?.length > 0 ? (
+                user && user?.user.posts?.length > 0 ? (
 
-                  user.posts.map((item) => (
+                  user.user.posts.map((item) => (
                     <Box sx={{
                       width: "33%",
                       height: 110,
@@ -420,9 +420,9 @@ const Userprofile = () => {
 
 
               {
-                user && user?.posts?.length > 0 ? (
+                user && user?.user.posts?.length > 0 ? (
 
-                  user.posts.map((item) => (
+                  user.user.posts.map((item) => (
                     <Box sx={{
                       width: "33%",
                       height: 110,
@@ -459,9 +459,9 @@ const Userprofile = () => {
             }}>
 
               {
-                user && user?.posts?.length > 0 ? (
+                user && user?.user.posts?.length > 0 ? (
 
-                  user.posts.map((item) => (
+                  user.user.posts.map((item) => (
                     <Box sx={{
                       width: "33%",
                       height: 110,
@@ -498,7 +498,7 @@ const Userprofile = () => {
         >
           <Box sx={style}>
             <Box>
-              <img src={user?.Avatar?.url} alt="Profile" style={{
+              <img src={user?.user.Avatar?.url} alt="Profile" style={{
                 width: '350px',
                 height: '350px',
                 borderRadius: '50%',

@@ -2,6 +2,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { changePasswordAsync, deleteUserAsync, followAndunfollowAsync, forgetPasswordAsync, getAllUsersAsync, getFollowingFollowersAsync, getSingleUserAsync, loginAsync, logoutAsync, meAsync, registerUserAsync, resetPasswordAsync, updateUserAsync } from '../actions/userAction';
 
 export interface User {
+    success: boolean;
+    user: IUser;
+}
+
+export interface IUser {
     Avatar: Avatar;
     _id: string;
     FullName: string;
@@ -60,7 +65,23 @@ export interface UserDto {
 
 export interface SingleUserDto {
     success: boolean;
-    singleUser: User;
+    singleUser: SingleUser;
+}
+
+export interface SingleUser {
+    Avatar: Avatar;
+    _id: string;
+    Email: string;
+    Password: string;
+    posts: Post[];
+    followers: string[];
+    following: any[];
+    savedPost: any[];
+    CreatedAt: Date;
+    __v: number;
+    FullName: string;
+    bio: string;
+    userName: string;
 }
 
 
@@ -70,7 +91,7 @@ interface UserState {
     user: User | null;
     message: string | null;
     error: string | null;
-    singleUser: User | null;
+    singleUser: SingleUserDto | null;
     FollowerFollowing: FollowDto | null
 }
 
@@ -164,9 +185,9 @@ const useSlice = createSlice({
         builder.addCase(getSingleUserAsync.pending, (state) => {
             state.loading = true
         }).addCase(getSingleUserAsync.fulfilled, (state, action) => {
-            const { singleUser } = action.payload
+            // const { singleUser } = action.payload
             state.loading = false;
-            state.singleUser = singleUser
+            state.singleUser = action.payload
         }).addCase(getSingleUserAsync.rejected, (state, action) => {
             const { message } = action.error
             state.loading = false;
