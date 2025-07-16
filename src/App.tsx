@@ -56,7 +56,7 @@ function App() {
             <Route path='/forgotpassword' element={<ForgotPassword />} />
             <Route path='/userprofile' element={<Userprofile />} />
             <Route path='/explore' element={<Explore />} />
-            <Route path='/chat/:userId' element={
+            <Route path='/chat/:chatId' element={
               <SocketProvider>
                 <Chat />
               </SocketProvider>

@@ -1,21 +1,21 @@
-import { Avatar, Box, Stack, Typography } from "@mui/material"
-import { deepPurple } from "@mui/material/colors"
-import LocalSeeOutlinedIcon from '@mui/icons-material/LocalSeeOutlined';
-import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
-import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import EditNoteOutlinedIcon from '@mui/icons-material/EditNoteOutlined';
+import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspaceOutlined';
+import LocalSeeOutlinedIcon from '@mui/icons-material/LocalSeeOutlined';
 import SearchIcon from '@mui/icons-material/Search';
+import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined';
 import { Input } from "@mui/joy";
+import { Avatar, Box, Stack, Typography } from "@mui/material";
+import { deepPurple } from "@mui/material/colors";
 import { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { getMyChatsAsync } from "../../redux/actions/messageAction";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { getSidebarUserAsync } from "../../redux/actions/messageAction";
-import { SideUser } from "../../redux/reducers/messageSlice";
+import { IChatDto } from "../../redux/reducers/messageSlice";
 import { getSocket } from "../../socket";
 
 const Message = () => {
     const [message, setMessage] = useState('');
-    const [sideUser, setSideUser] = useState<SideUser[]>([]);
+    const [sideUser, setSideUser] = useState<IChatDto | null>(null);
     const history = useNavigate();
     const socket = getSocket();
     socket?.on('connect', () => {
@@ -25,14 +25,17 @@ const Message = () => {
         console.log("message send successfully")
     }
 
-    const { sideBarUser } = useAppSelector(x => x.messageSlice);
+    const { mychats } = useAppSelector(x => x.messageSlice);
+    const { user } = useAppSelector(x => x.userslice);
     const dispatch = useAppDispatch();
     useEffect(() => {
-        dispatch(getSidebarUserAsync({ args: '' }));
+        // dispatch(getSidebarUserAsync({ args: '' }));
+        dispatch(getMyChatsAsync({ args: '' }))
     }, [dispatch])
+
     useEffect(() => {
-        setSideUser(sideBarUser);
-    }, [sideBarUser])
+        setSideUser(mychats);
+    }, [mychats])
 
     const goToChat = (id: string) => {
         history(`/chat/${id}`);
@@ -40,9 +43,9 @@ const Message = () => {
 
 
     return (
-        <Stack sx={{
+        <Stack ml={["0%", "21%"]} sx={{
             // border:1,
-            height: "96vh", width: ["100%", "80%"], margin: "auto"
+            height: "96vh", width: ["100%", "25%"], margin: "auto"
         }}>
 
             <Box sx={{ display: "flex", py: 1 }}>
@@ -76,8 +79,14 @@ const Message = () => {
 
             <Box overflow={"auto"}>
                 {
-                    sideUser && sideUser.length > 0 ? sideUser.map((user) => {
-                        return <MessageCard key={user._id} id={user._id} image={user.Avatar.url} Name={`${user.FullName}`} openChat={() => goToChat(user._id)} />
+                    sideUser && sideUser.enhancedChats.length > 0 ? sideUser?.enhancedChats.map((chat) => {
+                        const isGroup = chat.groupChat;
+                        const participants = chat.participants;
+                        const otherUsers = participants.filter(p => p._id !== user?.user._id);
+                        const displayName = isGroup ? chat.Name : otherUsers[0]?.FullName;
+                        const displayAvatar = isGroup ? otherUsers[0]?.Avatar.url : otherUsers[0]?.Avatar.url;
+                        return <MessageCard key={chat._id} id={chat._id} image={displayAvatar} Name={displayName}
+                            lastMessage={chat?.lastMessage?.content} openChat={() => goToChat(chat._id)} />
                     }) : (
                         <Typography>
                             No User Found
@@ -97,11 +106,12 @@ type MessageCardProp = {
     id: string
     image: string,
     Name: string,
+    lastMessage: string,
     openChat: () => void
 }
 
 
-const MessageCard: FC<MessageCardProp> = ({ image, Name, openChat }) => {
+const MessageCard: FC<MessageCardProp> = ({ image, Name, openChat, lastMessage }) => {
     return (
         <Box display={"flex"} mt={1} onClick={openChat} sx={{ boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)' }}>
             <Box sx={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -114,7 +124,7 @@ const MessageCard: FC<MessageCardProp> = ({ image, Name, openChat }) => {
                     {Name}
                 </Typography>
                 <Typography ml={1}>
-                    hi
+                    {lastMessage}
                 </Typography>
 
             </Box>

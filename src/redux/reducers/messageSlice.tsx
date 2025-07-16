@@ -1,10 +1,60 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSidebarUserAsync } from "../actions/messageAction";
+import { getMyChatsAsync, getSidebarUserAsync } from "../actions/messageAction";
 
 export interface SideUserDto {
     success: boolean;
     message: string;
     sideUsers: SideUser[];
+}
+
+export interface IChatDto {
+    success: boolean;
+    enhancedChats: Chat[];
+}
+
+export interface Chat {
+    _id: string;
+    Name: string;
+    participants: SenderID[];
+    groupChat: boolean;
+    messages: any[];
+    CreatedAt: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    __v: number;
+    lastMessage: LastMessage;
+    Creator?: string;
+}
+
+export interface LastMessage {
+    _id: string;
+    content: string;
+    senderId: SenderID;
+    chat: string;
+    timestamp: Date;
+    __v: number;
+}
+
+export interface SenderID {
+    _id: string;
+    Avatar: Avatar;
+    FullName: string;
+}
+
+export interface Avatar {
+    public_id: string;
+    url: string;
+}
+
+export interface Participant {
+    _id: string;
+    Avatar: Avatar;
+    FullName: string;
+}
+
+export interface Avatar {
+    public_id: string;
+    url: string;
 }
 
 export interface SideUser {
@@ -30,13 +80,15 @@ interface sideUserState {
     sideBarUser: SideUser[],
     loading: boolean
     error: any
+    mychats: IChatDto | null
 }
 
 
 const initialState: sideUserState = {
     sideBarUser: [],
     loading: false,
-    error: null
+    error: null,
+    mychats: null
 }
 
 const messageSlice = createSlice({
@@ -54,6 +106,15 @@ const messageSlice = createSlice({
         }).addCase(getSidebarUserAsync.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload
+        })
+        builder.addCase(getMyChatsAsync.pending, (state) => {
+            state.loading = true;
+        }).addCase(getMyChatsAsync.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload
+        }).addCase(getMyChatsAsync.fulfilled, (state, action) => {
+            state.loading = false;
+            state.mychats = action.payload
         })
     }
 })

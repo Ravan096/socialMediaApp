@@ -52,9 +52,9 @@ const Userprofile = () => {
     history(`/photos`)
   }
   return (
-    <Stack sx={{
+    <Stack ml={["0%","21%"]} width={["100%","25%"]} sx={{
       // border:2,
-      height: ["", "96vh"], width: "100%", margin: "auto"
+      height: ["", "96vh"], margin: "auto"
     }}>
 
 
@@ -63,7 +63,7 @@ const Userprofile = () => {
       <Box sx={{
         // border:1,
         borderColor: "red",
-        height: ["", "30%"],
+        height: ["", "40%"],
         width: "100%",
         display: "flex",
         flexDirection: ["column", "column"],
@@ -75,7 +75,7 @@ const Userprofile = () => {
         <Box sx={{
           // border: 1,
           borderColor: "limegreen",
-          width: ["100%", "30%"],
+          width: ["100%", "100%"],
           height: "100%",
           display: "flex",
           alignItems: "center",
@@ -115,7 +115,7 @@ const Userprofile = () => {
         <Box sx={{
           // border:1, 
           borderColor: "limegreen",
-          width: ["100%", "30%"],
+          width: ["100%", "100%"],
           height: "100%",
           display: "flex",
           alignItems: "center",
@@ -193,7 +193,7 @@ const Userprofile = () => {
           <Box sx={{
             display: "flex",
             alignItems: "center",
-            width: ["100%", "30%"],
+            width: ["100%", "100%"],
             // border:1,
             justifyContent: "flex-start"
           }}>
@@ -222,7 +222,7 @@ const Userprofile = () => {
 
 
           <Box sx={{width:"100%",display:"flex", flexDirection:"column", alignItems:"center"}}>
-            <Box sx={{ width: ["98%", "30%"],py:0.5, mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" }, borderRadius: 2 }}>
+            <Box sx={{ width: ["98%", "98%"],py:0.5, mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" }, borderRadius: 2 }}>
               <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
                 <Typography fontSize={""} m={0} p={0} ml={1}>
                   Professional Dashboard
@@ -232,7 +232,7 @@ const Userprofile = () => {
                 </Typography>
               </Link>
             </Box>
-            <Box sx={{ width: ["98%", "30%"], borderRadius: 2 }}>
+            <Box sx={{ width: ["98%", "98%"], borderRadius: 2 }}>
               <Link to={'/editprofile'}>
                 <Button variant="contained" fullWidth sx={{ color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" } }}>
                   Edit Profile</Button></Link>
@@ -320,7 +320,7 @@ const Userprofile = () => {
           <Box sx={{
             // borderBottom: 1,
             // borderColor: "crimson",
-            width: ["100%", "60%"],
+            width: ["100%", "100%"],
             // height:"10%",
             display: "flex",
             justifyContent: "space-around",
