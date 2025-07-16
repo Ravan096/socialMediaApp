@@ -63,10 +63,10 @@ const Photos = () => {
 
     const drawerBleeding = 56;
     return (
-        <Box sx={{
+        <Box ml={["0%","21%"]} sx={{
             // border:1, 
             // height:"60vh", 
-            width: ["100vw", "100%"]
+            width: ["100vw", "25%"]
         }}>
             {
                 loading ? (
@@ -80,7 +80,7 @@ const Photos = () => {
                         }}>
                             <Link to={"/profile"}>
                                 <Avatar
-                                    src={singlePost?.userId.Avatar.url}
+                                    src={singlePost?.userId.user.Avatar.url}
                                     sx={{
                                         //  border:1,
                                         borderColor: "greenyellow",
@@ -92,7 +92,7 @@ const Photos = () => {
                             <Box sx={{ ml: 2 }}>
                                 <Link to={`/profile/${"postOwnerId"}`}>
                                     <Typography color={"black"} sx={{ textDecorationLine: "none" }}>
-                                        {singlePost?.userId.FullName}
+                                        {singlePost?.userId.user.FullName}
                                     </Typography>
                                 </Link>
                                 <Typography>

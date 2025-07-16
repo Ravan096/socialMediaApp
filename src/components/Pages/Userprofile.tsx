@@ -91,7 +91,7 @@ const Userprofile = () => {
           }}>
 
             <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-              {user?.userName}
+              {user?.user.userName}
             </Typography>
 
             <Box
@@ -126,7 +126,7 @@ const Userprofile = () => {
             // border:1
           }} onClick={handleOpen}>
             <Avatar
-              src={user?.Avatar?.url}
+              src={user?.user.Avatar?.url}
               sx={{
                 //  border:1,
                 borderColor: "greenyellow",
@@ -146,7 +146,7 @@ const Userprofile = () => {
 
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
               <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                {user?.posts?.length}
+                {user?.user.posts?.length}
               </Typography>
               <Typography>
                 Posts
@@ -156,7 +156,7 @@ const Userprofile = () => {
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
               <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                {user?.followers?.length}
+                {user?.user.followers?.length}
               </Typography>
               <Typography>
                 followers
@@ -168,7 +168,7 @@ const Userprofile = () => {
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
               <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                {user?.following?.length}
+                {user?.user.following?.length}
               </Typography>
               <Typography>
                 following
@@ -199,7 +199,7 @@ const Userprofile = () => {
           }}>
 
             <Typography variant='body1' fontWeight={"bold"} sx={{ mt: 1, ml: 1 }}>
-              {user?.FullName}
+              {user?.user.FullName}
             </Typography>
           </Box>
 
@@ -213,8 +213,8 @@ const Userprofile = () => {
               ml: 1,
             }}>
 
-              {user?.bio} <br />
-              {user?.website}
+              {user?.user.bio} <br />
+              {user?.user.website}
             </Typography>
           </Box>
 
@@ -379,9 +379,9 @@ const Userprofile = () => {
             }}>
 
               {
-                user && user?.posts?.length > 0 ? (
+                user && user?.user.posts?.length > 0 ? (
 
-                  user.posts.map((item) => (
+                  user.user.posts.map((item) => (
                     <Box sx={{
                       width: "33%",
                       height: 110,
@@ -420,9 +420,9 @@ const Userprofile = () => {
 
 
               {
-                user && user?.posts?.length > 0 ? (
+                user && user?.user.posts?.length > 0 ? (
 
-                  user.posts.map((item) => (
+                  user.user.posts.map((item) => (
                     <Box sx={{
                       width: "33%",
                       height: 110,
@@ -459,9 +459,9 @@ const Userprofile = () => {
             }}>
 
               {
-                user && user?.posts?.length > 0 ? (
+                user && user?.user.posts?.length > 0 ? (
 
-                  user.posts.map((item) => (
+                  user.user.posts.map((item) => (
                     <Box sx={{
                       width: "33%",
                       height: 110,
@@ -498,7 +498,7 @@ const Userprofile = () => {
         >
           <Box sx={style}>
             <Box>
-              <img src={user?.Avatar?.url} alt="Profile" style={{
+              <img src={user?.user.Avatar?.url} alt="Profile" style={{
                 width: '350px',
                 height: '350px',
                 borderRadius: '50%',
