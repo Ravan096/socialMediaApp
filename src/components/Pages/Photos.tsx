@@ -21,7 +21,8 @@ const Photos = () => {
     const [showComments, setShowComments] = useState(false);
     const [comment, setComment] = useState([]);
     const dispatch = useAppDispatch();
-    const { loading, singlePost } = useAppSelector((x:RootState) => x.postSlice);
+    const { singlePost } = useAppSelector((x:RootState) => x.postSlice);
+    // const { loading, singlePost } = useAppSelector((x:RootState) => x.postSlice);
     console.log("singlepost", singlePost)
 
     const url = "https://jsonplaceholder.typicode.com/comments?_limit=20";
