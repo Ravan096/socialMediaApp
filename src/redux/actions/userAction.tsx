@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { server } from "../../constants/config";
 import axios from "axios";
-import { FollowDto, SingleUserDto, UserDto } from "../reducers/userSlice";
+import { FollowDto, SingleUserDto, User, UserDto } from "../reducers/userSlice";
 
 export const loginAsync = createAsyncThunk(
     'login',
@@ -20,7 +20,7 @@ export const loginAsync = createAsyncThunk(
                 localStorage.setItem('token', data.token);
             }
 
-            return data as UserDto
+            return data as User
 
         } catch (error) {
             if (error instanceof Error) {
@@ -44,7 +44,7 @@ export const meAsync = createAsyncThunk(
                 },
                 withCredentials: true
             })
-            return data as UserDto
+            return data as User
         } catch (error) {
             if (error instanceof Error) {
                 return rejectWithValue(error.message)

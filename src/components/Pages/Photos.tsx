@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { likePostAsync, savePostAsync } from "../../redux/actions/postAction";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import Homescaleton from "../Loader/Homescaleton";
+import { RootState } from "../../redux/store";
 
 
 const Photos = () => {
@@ -20,7 +21,8 @@ const Photos = () => {
     const [showComments, setShowComments] = useState(false);
     const [comment, setComment] = useState([]);
     const dispatch = useAppDispatch();
-    const { loading, singlePost } = useAppSelector(x => x.postSlice)
+    const { loading, singlePost } = useAppSelector((x:RootState) => x.postSlice);
+    console.log("singlepost", singlePost)
 
     const url = "https://jsonplaceholder.typicode.com/comments?_limit=20";
     // const url = "https://api.publicapis.org/entries";
@@ -39,11 +41,11 @@ const Photos = () => {
     }, [url]);
 
     const likePostHandle = (id: string) => {
-        dispatch(likePostAsync({postId:id}))
-        
+        dispatch(likePostAsync({ postId: id }))
+
     }
     const savePostHandle = (id: string) => {
-        dispatch(savePostAsync({postId:id}))
+        dispatch(savePostAsync({ postId: id }))
     }
 
 
@@ -63,13 +65,13 @@ const Photos = () => {
 
     const drawerBleeding = 56;
     return (
-        <Box ml={["0%","21%"]} sx={{
+        <Box ml={["0%", "21%"]} sx={{
             // border:1, 
             // height:"60vh", 
             width: ["100vw", "25%"]
         }}>
             {
-                loading ? (
+                !singlePost ? (
                     <Homescaleton />
                 ) : (
                     <>
@@ -80,7 +82,7 @@ const Photos = () => {
                         }}>
                             <Link to={"/profile"}>
                                 <Avatar
-                                    src={singlePost?.userId.user.Avatar.url}
+                                    src={singlePost?.userId?.user?.Avatar?.url}
                                     sx={{
                                         //  border:1,
                                         borderColor: "greenyellow",
@@ -92,7 +94,7 @@ const Photos = () => {
                             <Box sx={{ ml: 2 }}>
                                 <Link to={`/profile/${"postOwnerId"}`}>
                                     <Typography color={"black"} sx={{ textDecorationLine: "none" }}>
-                                        {singlePost?.userId.user.FullName}
+                                        {singlePost?.userId?.user?.FullName}
                                     </Typography>
                                 </Link>
                                 <Typography>

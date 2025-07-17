@@ -4,27 +4,30 @@ import { changePasswordAsync, deleteUserAsync, followAndunfollowAsync, forgetPas
 export interface User {
     success: boolean;
     user: IUser;
+    token?: string
 }
 
 export interface IUser {
     Avatar: Avatar;
     _id: string;
-    FullName: string;
-    userName: string;
     Email: string;
     Password: string;
     posts: Post[];
     followers: string[];
     following: string[];
-    savedPost: any[];
+    savedPost: string[];
     CreatedAt: Date;
-    state: string;
-    bio: string;
-    gender: string;
-    dob: Date;
-    mobile: string;
-    website: string;
     __v: number;
+    resetPasswordExpire: Date;
+    resetPasswordToken: string;
+    bio: string;
+    dob: Date;
+    gender: string;
+    mobile: string;
+    state: string;
+    userName: string;
+    website: string;
+    FullName: string;
 }
 
 export interface Avatar {
@@ -60,7 +63,7 @@ export interface Post {
 export interface UserDto {
     success: boolean;
     user: User;
-    token: string;
+    token?: string;
 }
 
 export interface SingleUserDto {
@@ -142,7 +145,7 @@ const useSlice = createSlice({
         }).addCase(loginAsync.fulfilled, (state, action) => {
             state.isAuthenticated = true
             state.loading = false
-            state.user = action.payload.user
+            state.user = action.payload
             state.message = "Login Successfully!"
         })
 
@@ -151,7 +154,7 @@ const useSlice = createSlice({
         }).addCase(meAsync.fulfilled, (state, action) => {
             state.isAuthenticated = true
             state.loading = false
-            state.user = action.payload.user
+            state.user = action.payload
         }).addCase(meAsync.rejected, (state, action) => {
             const { message } = action.error
             state.loading = false

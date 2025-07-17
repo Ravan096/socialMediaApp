@@ -237,9 +237,9 @@ const Chat = () => {
         {/* chat content start */}
         <Box sx={{
           border: 1,
-          borderColor: "blue",
+          borderColor: "red",
           width: ["100%", "60%"],
-          height: ["100%", "100%"]
+          height: ["100vh", "100%"]
         }}>
 
           <Box sx={{
@@ -248,7 +248,7 @@ const Chat = () => {
             justifyContent: "space-between",
             alignItems: "center",
             width: ["100%", "60%"],
-            height: "15%"
+            height: "10%"
           }}>
             <Link to={'/message'}>
               <KeyboardBackspaceIcon style={{ fontSize: "2rem", color: "black" }} />
@@ -287,7 +287,7 @@ const Chat = () => {
             <Box className="Chatbox" sx={{
               flexGrow: 1,
               overflowY: 'auto',
-              maxHeight: '70vh',
+              maxHeight: ['70vh', '70vh'],
               padding: '10px'
             }}>
               {messages?.map((item: any, i: any) => (
@@ -295,7 +295,7 @@ const Chat = () => {
                   key={i}
                   sx={{
                     display: "flex",
-                    justifyContent: item.senderId._id !== user?.user._id ? "flex-end" : "flex-start",
+                    justifyContent: item.senderId._id !== user?.user._id ? "flex-start" : "flex-end",
                     marginBottom: "8px",
                   }}
                 >
@@ -337,7 +337,7 @@ const Chat = () => {
                 onClick={sendMessageHandler}
                 variant="contained"
                 color="error"
-                sx={{ width: '20%' }}
+                sx={{ width: '20%', marginLeft: '10px', minWidth: '50px' }}
               >
                 <SendIcon />
               </Button>
