@@ -32,7 +32,7 @@ const api = createApi({
                 method: 'GET',
                 credentials: "include"
             }),
-            providesTags: ["Message"]
+            providesTags: ["Message","Chat"]
         }),
 
         sendMessage: builder.mutation({
@@ -41,7 +41,7 @@ const api = createApi({
                 method: 'POST',
                 body: { msgText: content }
             }),
-            invalidatesTags: ['Message']
+            invalidatesTags: ['Message',"Chat"]
         })
     })
 

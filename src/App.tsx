@@ -1,5 +1,20 @@
+import { Suspense, lazy, useEffect } from "react";
+import toast, { Toaster } from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { Suspense, lazy, useEffect } from "react"
+import Homescaleton from './components/Loader/Homescaleton';
+import Cam from './components/Pages/Cam';
+import FriendsList from './components/Pages/FriendsList';
+import Header from './components/Pages/Header';
+import Message from './components/Pages/Message';
+import Reels from './components/Pages/Reels';
+import StoryContainer from './components/Pages/StoryContainer ';
+import { meAsync } from "./redux/actions/userAction";
+import { useAppDispatch } from './redux/hooks';
+import { clearError, clearMessage } from './redux/reducers/userSlice';
+import { RootState } from './redux/store';
+import { SocketProvider } from './socket';
+import ProtectedRoute from "./lib/ProtectedRoute";
 const ForgotPassword = lazy(() => import("./components/Pages/ForgotPassword"));
 const Home = lazy(() => import("./components/Pages/Home"));
 const Login = lazy(() => import("./components/Pages/Login"));
@@ -14,22 +29,16 @@ const EditProfile = lazy(() => import("./components/Pages/EditProfile"));
 const PageNotFound = lazy(() => import("./components/Pages/PageNotFound"));
 const SettingActivity = lazy(() => import("./components/Pages/SettingActivity"));
 const Photos = lazy(() => import("./components/Pages/Photos"));
-import Cam from './components/Pages/Cam';
-import toast, { Toaster } from 'react-hot-toast';
-import Header from './components/Pages/Header';
-import Homescaleton from './components/Loader/Homescaleton';
-import Message from './components/Pages/Message';
-import Reels from './components/Pages/Reels';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from './redux/store';
-import { clearError, clearMessage } from './redux/reducers/userSlice';
-import FriendsList from './components/Pages/FriendsList';
-import StoryContainer from './components/Pages/StoryContainer ';
-import { SocketProvider } from './socket'
 
 function App() {
-  const dispatch = useDispatch();
-  const { error, message } = useSelector((state: RootState) => state.userslice);
+  const dispatch = useAppDispatch();
+  const { error, message, user } = useSelector((state: RootState) => state.userslice);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token && !user) {
+      dispatch(meAsync({ args: '' }));
+    }
+  }, [])
   const hideNav = ['/', 'forgotpassword', 'signup'];
   const currentLocation = window.location.pathname;
   useEffect(() => {
@@ -47,32 +56,37 @@ function App() {
       <Suspense fallback={<Homescaleton />}>
         <div style={{ paddingBottom: "15%" }}>
           <Routes>
-            <Route path='/home' element={<Home />} />
-            <Route path='/profile/:userId' element={<Profile />} />
-            <Route path='/photos' element={<Photos />} />
-            <Route path='/userlist' element={<FriendsList />} />
+            <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path='/profile/:userId' element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path='/photos' element={<ProtectedRoute><Photos /></ProtectedRoute>} />
+            <Route path='/userlist' element={<ProtectedRoute><FriendsList /></ProtectedRoute>} />
             <Route path='/' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/forgotpassword' element={<ForgotPassword />} />
-            <Route path='/userprofile' element={<Userprofile />} />
-            <Route path='/explore' element={<Explore />} />
+            <Route path='/userprofile' element={<ProtectedRoute><Userprofile /></ProtectedRoute>} />
+            <Route path='/explore' element={<ProtectedRoute><Explore /></ProtectedRoute>} />
             <Route path='/chat/:chatId' element={
-              <SocketProvider>
-                <Chat />
-              </SocketProvider>
+              <ProtectedRoute>
+                <SocketProvider>
+                  <Chat />
+                </SocketProvider>
+              </ProtectedRoute>
+
             } />
-            <Route path='/like' element={<Like />} />
-            <Route path='/cam' element={<Cam />} />
-            <Route path='/editprofile' element={<EditProfile />} />
-            <Route path='/search' element={<Search />} />
+            <Route path='/like' element={<ProtectedRoute><Like /></ProtectedRoute>} />
+            <Route path='/cam' element={<ProtectedRoute><Cam /></ProtectedRoute>} />
+            <Route path='/editprofile' element={<ProtectedRoute><EditProfile /></ProtectedRoute>} />
+            <Route path='/search' element={<ProtectedRoute><Search /></ProtectedRoute>} />
             <Route path='/message' element={
-              <SocketProvider>
-                <Message />
-              </SocketProvider>
+              <ProtectedRoute>
+                <SocketProvider>
+                  <Message />
+                </SocketProvider>
+              </ProtectedRoute>
             } />
-            <Route path='/reels' element={<Reels />} />
-            <Route path='/settingsandactivity' element={<SettingActivity />} />
-            <Route path='/story' element={<StoryContainer />} />
+            <Route path='/reels' element={<ProtectedRoute><Reels /></ProtectedRoute>} />
+            <Route path='/settingsandactivity' element={<ProtectedRoute><SettingActivity /></ProtectedRoute>} />
+            <Route path='/story' element={<ProtectedRoute><StoryContainer /></ProtectedRoute>} />
             <Route path='*' element={<PageNotFound />} />
           </Routes>
         </div>

@@ -82,7 +82,7 @@ const Message = () => {
                     sideUser && sideUser.enhancedChats.length > 0 ? sideUser?.enhancedChats.map((chat) => {
                         const isGroup = chat.groupChat;
                         const participants = chat.participants;
-                        const otherUsers = participants.filter(p => p._id !== user?.user._id);
+                        const otherUsers = participants.filter(p => p._id !== user?.user?._id);
                         const displayName = isGroup ? chat.Name : otherUsers[0]?.FullName;
                         const displayAvatar = isGroup ? otherUsers[0]?.Avatar.url : otherUsers[0]?.Avatar.url;
                         return <MessageCard key={chat._id} id={chat._id} image={displayAvatar} Name={displayName}

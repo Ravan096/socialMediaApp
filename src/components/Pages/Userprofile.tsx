@@ -35,12 +35,15 @@ const Userprofile = () => {
     justifyContent: 'center',
   };
 
-  const { user } = useAppSelector(x => x.userslice)
+  const { user } = useAppSelector(x => x.userslice);
+  console.log("user", user)
   const dispatch = useAppDispatch();
   const history = useNavigate();
 
   useEffect(() => {
-    dispatch(meAsync({ args: '' }))
+    if (!user || !user.user.userName) {
+      dispatch(meAsync({ args: '' }))
+    }
   }, [dispatch])
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -52,7 +55,7 @@ const Userprofile = () => {
     history(`/photos`)
   }
   return (
-    <Stack ml={["0%","21%"]} width={["100%","25%"]} sx={{
+    <Stack ml={["0%", "21%"]} width={["100%", "25%"]} sx={{
       // border:2,
       height: ["", "96vh"], margin: "auto"
     }}>
@@ -154,25 +157,25 @@ const Userprofile = () => {
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
-              <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                {user?.user.followers?.length}
-              </Typography>
-              <Typography>
-                followers
-              </Typography>
+              <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
+                <Typography fontWeight={"600"} sx={{ mt: 1 }}>
+                  {user?.user.followers?.length}
+                </Typography>
+                <Typography>
+                  followers
+                </Typography>
               </Link>
             </Box>
 
 
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
-              <Typography fontWeight={"600"} sx={{ mt: 1 }}>
-                {user?.user.following?.length}
-              </Typography>
-              <Typography>
-                following
-              </Typography>
+              <Link to={'/userlist'} style={{ textDecoration: "none", color: "black" }}>
+                <Typography fontWeight={"600"} sx={{ mt: 1 }}>
+                  {user?.user.following?.length}
+                </Typography>
+                <Typography>
+                  following
+                </Typography>
               </Link>
             </Box>
 
@@ -221,8 +224,8 @@ const Userprofile = () => {
 
 
 
-          <Box sx={{width:"100%",display:"flex", flexDirection:"column", alignItems:"center"}}>
-            <Box sx={{ width: ["98%", "98%"],py:0.5, mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" }, borderRadius: 2 }}>
+          <Box sx={{ width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Box sx={{ width: ["98%", "98%"], py: 0.5, mb: 1, color: "black", bgcolor: "#d2d4d6", fontWeight: "bold", ":hover": { bgcolor: "#bcbfc2" }, borderRadius: 2 }}>
               <Link to={'#'} style={{ textDecoration: "none", color: "black" }}>
                 <Typography fontSize={""} m={0} p={0} ml={1}>
                   Professional Dashboard
