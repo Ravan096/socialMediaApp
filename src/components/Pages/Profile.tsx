@@ -48,8 +48,10 @@ const Profile = () => {
   const history = useNavigate();
 
   useEffect(() => {
-    dispatch(getSingleUserAsync({ userId: userId! }))
-  }, [dispatch, userId]);
+    if (!singleUser?.singleUser || singleUser.singleUser._id !== userId) {
+      dispatch(getSingleUserAsync({ userId: userId! }))
+    }
+  }, [dispatch, userId, singleUser?.singleUser]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);

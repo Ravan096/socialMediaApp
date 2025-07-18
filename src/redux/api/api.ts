@@ -13,7 +13,7 @@ const api = createApi({
             return headers;
         },
     }),
-    tagTypes: ["Chat", "Message"],
+    tagTypes: ["Chat", "Message", "User"],
     endpoints: (builder) => ({
         chatDetails: builder.query({
             query: ({ chatId, populate = true }) => {
@@ -32,7 +32,7 @@ const api = createApi({
                 method: 'GET',
                 credentials: "include"
             }),
-            providesTags: ["Message","Chat"]
+            providesTags: ["Message", "Chat"]
         }),
 
         sendMessage: builder.mutation({
@@ -41,7 +41,15 @@ const api = createApi({
                 method: 'POST',
                 body: { msgText: content }
             }),
-            invalidatesTags: ['Message',"Chat"]
+            invalidatesTags: ['Message', "Chat"]
+        }),
+
+        searchUsers: builder.query({
+            query: (query) => ({
+                url: `search?q=${encodeURIComponent(query)}`,
+                method: 'GET'
+            }),
+            providesTags: ["User"]
         })
     })
 
@@ -51,5 +59,5 @@ const api = createApi({
 export default api;
 export const { useChatDetailsQuery,
     useGetMessagesQuery,
-    useSendMessageMutation
+    useSendMessageMutation, useSearchUsersQuery
 } = api;

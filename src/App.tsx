@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 import { useSelector } from 'react-redux';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
@@ -32,11 +32,16 @@ const Photos = lazy(() => import("./components/Pages/Photos"));
 
 function App() {
   const dispatch = useAppDispatch();
+  const [authChecked, setAuthChecked] = useState(false);
   const { error, message, user } = useSelector((state: RootState) => state.userslice);
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token && !user) {
-      dispatch(meAsync({ args: '' }));
+      dispatch(meAsync({ args: '' })).finally(() => {
+        setAuthChecked(true)
+      });
+    } else {
+      setAuthChecked(true)
     }
   }, [])
   const hideNav = ['/', 'forgotpassword', 'signup'];
@@ -51,6 +56,10 @@ function App() {
       dispatch(clearMessage())
     }
   }, [error, message])
+
+  if (!authChecked) {
+    return <Homescaleton />
+  }
   return (
     <Router>
       <Suspense fallback={<Homescaleton />}>
