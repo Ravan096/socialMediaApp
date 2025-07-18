@@ -33,12 +33,21 @@ import { useAppSelector } from '../../redux/hooks';
 export interface AllMessage {
   _id: string;
   content: string;
-  sender: {
-    _id: string;
-    name: string;
-  };
+  senderId: SenderID;
   chat: string;
-  createdAt: string;
+  timestamp: Date;
+  __v: number;
+}
+
+export interface SenderID {
+  Avatar: Avatar;
+  _id: string;
+  FullName: string;
+}
+
+export interface Avatar {
+  public_id: string;
+  url: string;
 }
 
 
@@ -55,9 +64,9 @@ const Chat = () => {
   const { data: chatDetails } = useChatDetailsQuery({ chatId: chatId });
   const { data: messagesData } = useGetMessagesQuery({ chatId }, { skip: !chatId });
 
-  console.log("user", user)
-  console.log("this is chat details", chatDetails)
-  console.log("this is message for this user", messagesData);
+  // console.log("user", user)
+  // console.log("this is chat details", chatDetails)
+  // console.log("this is message for this user", messagesData);
   // const otherUser = chatDetails.chat.participants.filter((p: any) => p._id !== user?.user._id)
   // const { data: getUserMessages } = useGetMessagesQuery({ userId: userId });
 
@@ -94,7 +103,11 @@ const Chat = () => {
     socket.emit('joinChat', chatId);
     socket.on("NEW_MESSAGES", ({ chatId: incomingChatId, message }) => {
       if (incomingChatId === chatId) {
-        setMessages(prevMessages => [...prevMessages, message]);
+        console.log("📩 Received socket message:", message);
+        const adaptedMessage = {
+          ...message, senderId: message.sender
+        }
+        setMessages(prevMessages => [...prevMessages, adaptedMessage]);
       }
     });
     return () => {
@@ -113,10 +126,10 @@ const Chat = () => {
   const sendMessageHandler = (e: any) => {
     e.preventDefault();
     if (!message.trim() || !chatId) return;
-
+    console.log("🟢 Sending NEW_MESSAGES with members:", chatDetails?.chat?.participants?.map((p: any) => p._id));
     socket?.emit("NEW_MESSAGES", {
       chatId: chatId,
-      members: chatDetails?.chat?.participants || [],
+      members: chatDetails?.chat?.participants?.map((p: any) => p._id) || [],
       message
     });
 
