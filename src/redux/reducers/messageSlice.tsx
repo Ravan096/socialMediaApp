@@ -24,6 +24,9 @@ export interface Chat {
     __v: number;
     lastMessage: LastMessage;
     Creator?: string;
+    unreadCounts?: {
+        [userId: string]: number
+    }
 }
 
 export interface LastMessage {
@@ -95,6 +98,15 @@ const messageSlice = createSlice({
     name: "messages",
     initialState,
     reducers: {
+        updateUnread: (state, action) => {
+            const { chatId, count, userId } = action.payload;
+            const chat = state.mychats?.enhancedChats.find(c => c._id === chatId);
+            if (chat) {
+                if (!chat.unreadCounts) chat.unreadCounts = {};
+                chat.unreadCounts[userId] = count;
+            }
+        }
+
 
     },
     extraReducers: (builder) => {
@@ -119,5 +131,5 @@ const messageSlice = createSlice({
     }
 })
 
-export const { } = messageSlice.actions;
+export const { updateUnread } = messageSlice.actions;
 export default messageSlice.reducer;

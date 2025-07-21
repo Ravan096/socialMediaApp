@@ -44,3 +44,24 @@ export const getMyChatsAsync = createAsyncThunk(
         }
     }
 )
+
+export const resetUnreadCountAsync = createAsyncThunk(
+    "resetUnreadCount",
+    async ({ chatId }: { chatId: string }, { rejectWithValue }) => {
+        try {
+            const token = localStorage.getItem('token');
+            const { data } = await axios.put(`${server}/resetunread/${chatId}`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                },
+                withCredentials: true
+            })
+            return data
+        } catch (error) {
+            if (error instanceof Error) {
+                return rejectWithValue(error.message)
+            }
+            return rejectWithValue("something went wrong")
+        }
+    }
+)

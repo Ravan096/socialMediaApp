@@ -8,9 +8,9 @@ import { Avatar, Box, Stack, Typography } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getMyChatsAsync } from "../../redux/actions/messageAction";
+import { getMyChatsAsync, resetUnreadCountAsync } from "../../redux/actions/messageAction";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { IChatDto } from "../../redux/reducers/messageSlice";
+import { IChatDto, updateUnread } from "../../redux/reducers/messageSlice";
 import { getSocket } from "../../socket";
 import MessageCardSkeleton from '../Loader/MessageCardSkeleton';
 
@@ -29,6 +29,24 @@ const Message = () => {
     const { mychats, loading } = useAppSelector(x => x.messageSlice);
     const { user } = useAppSelector(x => x.userslice);
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handler = ({ chatId, count }: any) => {
+            if (user?.user?._id) {
+                dispatch(updateUnread({ chatId, count, userId: user.user._id }));
+            }
+        };
+
+        socket.on("UPDATE_UNREAD_COUNT", handler);
+
+        return () => {
+            socket.off("UPDATE_UNREAD_COUNT", handler);
+        };
+    }, [dispatch, socket, user?.user?._id]);
+
+
     useEffect(() => {
         // dispatch(getSidebarUserAsync({ args: '' }));
         dispatch(getMyChatsAsync({ args: '' }))
@@ -39,6 +57,8 @@ const Message = () => {
     }, [mychats])
 
     const goToChat = (id: string) => {
+        dispatch(resetUnreadCountAsync({ chatId: id }))
+        dispatch(updateUnread({ chatId: id, count: 0, userId: user?.user._id }))
         history(`/chat/${id}`);
     }
 
@@ -86,8 +106,11 @@ const Message = () => {
                         const otherUsers = participants.filter(p => p._id !== user?.user?._id);
                         const displayName = isGroup ? chat.Name : otherUsers[0]?.FullName;
                         const displayAvatar = isGroup ? otherUsers[0]?.Avatar.url : otherUsers[0]?.Avatar.url;
+                        const userId = user?.user?._id;
+                        const unreadCount = userId && chat?.unreadCounts ? chat.unreadCounts[userId] || 0 : 0;
+
                         return <MessageCard key={chat._id} id={chat._id} image={displayAvatar} Name={displayName}
-                            lastMessage={chat?.lastMessage?.content} openChat={() => goToChat(chat._id)} />
+                            lastMessage={chat?.lastMessage?.content} openChat={() => goToChat(chat._id)} unreadCount={unreadCount} />
                     }) : (
                         <Typography>
                             No User Found
@@ -110,11 +133,12 @@ type MessageCardProp = {
     image: string,
     Name: string,
     lastMessage: string,
-    openChat: () => void
+    openChat: () => void,
+    unreadCount: number;
 }
 
 
-const MessageCard: FC<MessageCardProp> = ({ image, Name, openChat, lastMessage }) => {
+const MessageCard: FC<MessageCardProp> = ({ image, Name, openChat, lastMessage, unreadCount }) => {
     return (
         <Box display={"flex"} mt={1} onClick={openChat} sx={{ boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)' }}>
             <Box sx={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -133,7 +157,22 @@ const MessageCard: FC<MessageCardProp> = ({ image, Name, openChat, lastMessage }
             </Box>
 
             <Box sx={{ width: "20%", display: "flex", alignItems: "center", justifyContent: "center" }} >
-                <LocalSeeOutlinedIcon style={{ fontSize: "2rem" }} />
+                {unreadCount > 0 ? (
+                    <Box
+                        sx={{
+                            backgroundColor: "red",
+                            color: "white",
+                            padding: "4px 8px",
+                            borderRadius: "50%",
+                            fontSize: "0.75rem"
+                        }}
+                    >
+                        {unreadCount}
+                    </Box>
+                ) : (
+                    <LocalSeeOutlinedIcon style={{ fontSize: "2rem" }} />
+                )}
+
             </Box>
 
         </Box>
