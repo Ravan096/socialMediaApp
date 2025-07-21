@@ -1,10 +1,10 @@
 import {
     Box,
-    Divider,
-    GlobalStyles,
+    // Divider,
+    // GlobalStyles,
     Skeleton,
-    SwipeableDrawer,
-    Typography
+    // SwipeableDrawer,
+    // Typography
 } from '@mui/material';
 
 const HomeCardSkeleton = () => {
