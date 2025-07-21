@@ -46,7 +46,7 @@ const HomeCardSkeleton = () => {
       <Skeleton variant="circular" width={28} height={28} sx={{ ml: 2, mt: 1 }} />
 
       {/* Optional drawer simulation */}
-      <SwipeableDrawer anchor="bottom" open={true} onClose={() => {}} onOpen={() => {}}>
+      {/* <SwipeableDrawer anchor="bottom" open={true} onClose={() => {}} onOpen={() => {}}>
         <GlobalStyles styles={{
           '.MuiDrawer-root > .MuiPaper-root': {
             height: `calc(60% - 56px)`,
@@ -67,7 +67,7 @@ const HomeCardSkeleton = () => {
             </Box>
           ))}
         </Box>
-      </SwipeableDrawer>
+      </SwipeableDrawer> */}
     </Box>
   );
 };
