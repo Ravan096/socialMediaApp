@@ -21,6 +21,7 @@ import moment from 'moment';
 import { getPostOfFollwoing, likePostAsync, savePostAsync } from '../../redux/actions/postAction';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Post } from '../../redux/reducers/postSlice';
+import HomeCardSkeleton from '../Loader/HomeCardSkeleton';
 
 
 
@@ -31,7 +32,7 @@ const Home = () => {
   const [followBtn, setFollowBtn] = useState("Follow");
   const [Posts, setPosts] = useState<Post[]>([]);
   const dispatch = useAppDispatch();
-  const { posts} = useAppSelector(x => x.postSlice);
+  const { posts, loading } = useAppSelector(x => x.postSlice);
 
   const FollowHandler = () => {
     setFollowBtn("Following")
@@ -70,8 +71,8 @@ const Home = () => {
 
 
   return (
-    <Stack width={["100%","60%"]} ml={["0%","21%"]} >
-      <Box width={["100%","50%"]} display={"flex"} alignItems={"center"} justifyContent={["space-between","Start"]} gap={[0,20]} sx={{boxShadow: '2px 4px 10px rgba(0, 0, 0, 0.05)'}}>
+    <Stack width={["100%", "60%"]} ml={["0%", "21%"]} >
+      <Box width={["100%", "50%"]} display={"flex"} alignItems={"center"} justifyContent={["space-between", "Start"]} gap={[0, 20]} sx={{ boxShadow: '2px 4px 10px rgba(0, 0, 0, 0.05)' }}>
 
         <Box sx={{
           width: "20%",
@@ -88,7 +89,7 @@ const Home = () => {
           </Typography>
         </Box>
 
-        <Box width={"40%"} display={"flex"} justifyContent={["space-around","start"]} gap={[0,5]}>
+        <Box width={"40%"} display={"flex"} justifyContent={["space-around", "start"]} gap={[0, 5]}>
           <Link to={"/like"}>
             <FavoriteBorderOutlinedIcon style={{ fontSize: "2rem", color: "black" }} />
           </Link>
@@ -98,7 +99,7 @@ const Home = () => {
         </Box>
       </Box>
 
-      <Box display={"flex"} alignItems={"center"} justifyContent={["space-evenly","start"]} mt={.5} gap={[0,5]}>
+      <Box display={"flex"} alignItems={"center"} justifyContent={["space-evenly", "start"]} mt={.5} gap={[0, 5]}>
         <Avatar
           src={proimg}
           sx={{
@@ -147,7 +148,7 @@ const Home = () => {
 
       <Stack sx={{
         // border:1,
-        height: "96vh", width: "80%", margin: ["auto",0]
+        height: "96vh", width: "80%", margin: ["auto", 0]
       }}>
 
 
@@ -171,18 +172,20 @@ const Home = () => {
           }}>
 
             {
-              Posts.length > 0 ? (
-                Posts.map((item: any) => (
-                  <HomeCard key={item._id} image={item.image.url} Caption={`${item.title} ${item.content}`} CreatedAt={item.CreatedAt}
-                    savePostHandle={(id) => savePost(id)} id={item?._id} likePostHandle={(id) => likePost(id)} postOwnerId={item.userId._id}
-                    postOwner={item.userId.FullName} postLocation={item.Location} liked={item.isLike} save={item.isSave} />
-                ))
-              ) :
-                (
-                  <Typography>
-                    No Post Available
-                  </Typography>
-                )
+              loading ? (<HomeCardSkeleton />) : (
+                Posts.length > 0 ? (
+                  Posts.map((item: any) => (
+                    <HomeCard key={item._id} image={item.image.url} Caption={`${item.title} ${item.content}`} CreatedAt={item.CreatedAt}
+                      savePostHandle={(id) => savePost(id)} id={item?._id} likePostHandle={(id) => likePost(id)} postOwnerId={item.userId._id}
+                      postOwner={item.userId.FullName} postLocation={item.Location} liked={item.isLike} save={item.isSave} />
+                  ))
+                ) :
+                  (
+                    <Typography>
+                      No Post Available
+                    </Typography>
+                  )
+              )
             }
 
             {/* <HomeCard image={img1} />
@@ -234,7 +237,7 @@ const Home = () => {
             borderColor: "red",
             width: "40%",
             display: ["none", "none"],
-            boxShadow:3
+            boxShadow: 3
           }}>
 
             <Box sx={{
@@ -457,10 +460,10 @@ type HomeCardProp = {
   postLocation: string
   liked: boolean
   save: boolean
-  postOwnerId:string
+  postOwnerId: string
 }
 
-const HomeCard: FC<HomeCardProp> = ({ image, Caption, CreatedAt, id, savePostHandle, likePostHandle, postOwner, postLocation, liked, save,postOwnerId }) => {
+const HomeCard: FC<HomeCardProp> = ({ image, Caption, CreatedAt, id, savePostHandle, likePostHandle, postOwner, postLocation, liked, save, postOwnerId }) => {
 
   const [showComments, setShowComments] = useState(false);
   const [comment, setComment] = useState([]);

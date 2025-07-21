@@ -12,6 +12,7 @@ import { getMyChatsAsync } from "../../redux/actions/messageAction";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { IChatDto } from "../../redux/reducers/messageSlice";
 import { getSocket } from "../../socket";
+import MessageCardSkeleton from '../Loader/MessageCardSkeleton';
 
 const Message = () => {
     const [message, setMessage] = useState('');
@@ -25,7 +26,7 @@ const Message = () => {
         console.log("message send successfully")
     }
 
-    const { mychats } = useAppSelector(x => x.messageSlice);
+    const { mychats, loading } = useAppSelector(x => x.messageSlice);
     const { user } = useAppSelector(x => x.userslice);
     const dispatch = useAppDispatch();
     useEffect(() => {
@@ -78,7 +79,7 @@ const Message = () => {
 
 
             <Box overflow={"auto"}>
-                {
+                {loading ? (<MessageCardSkeleton />) : (
                     sideUser && sideUser.enhancedChats.length > 0 ? sideUser?.enhancedChats.map((chat) => {
                         const isGroup = chat.groupChat;
                         const participants = chat.participants;
@@ -92,6 +93,8 @@ const Message = () => {
                             No User Found
                         </Typography>
                     )
+                )
+
                 }
 
             </Box>
