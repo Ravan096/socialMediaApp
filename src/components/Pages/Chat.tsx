@@ -58,7 +58,7 @@ const Chat = () => {
   const [messages, setMessages] = useState<AllMessage[]>([])
   const { chatId } = useParams();
   const { user } = useAppSelector(x => x.userslice);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
 
 
   const { data: chatDetails } = useChatDetailsQuery({ chatId: chatId });
@@ -87,6 +87,9 @@ const Chat = () => {
   useEffect(() => {
     if (messagesData?.message) {
       setMessages(messagesData?.message);
+      setTimeout(() => {
+        scrollRef.current?.scrollIntoView({ behavior: "smooth" })
+      }, 100);
     }
   }, [messagesData])
 
@@ -94,7 +97,9 @@ const Chat = () => {
 
   // scroll to bottom 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (scrollRef.current) {
+      scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }
   }, [messages])
 
 
@@ -134,6 +139,9 @@ const Chat = () => {
     });
 
     setMessage("");
+    setTimeout(() => {
+      scrollRef.current?.scrollIntoView({ behavior: "smooth" })
+    }, 100);
   };
 
 
@@ -260,8 +268,13 @@ const Chat = () => {
             border: 2,
             justifyContent: "space-between",
             alignItems: "center",
-            width: ["100%", "60%"],
-            height: "10%"
+            width: ["100%", "100%"],
+            height: "10%",
+            borderBottom: "1px solid #ccc",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+            backgroundColor: "white"
           }}>
             <Link to={'/message'}>
               <KeyboardBackspaceIcon style={{ fontSize: "2rem", color: "black" }} />
@@ -293,19 +306,22 @@ const Chat = () => {
             width: '100%',
             display: 'flex',
             flexDirection: 'column',
-            height: '100vh'
+            height: '100vh',
+            overflow: "hidden"
           }}>
 
             {/* Chat Box */}
             <Box className="Chatbox" sx={{
               flexGrow: 1,
               overflowY: 'auto',
-              maxHeight: ['70vh', '70vh'],
+              // maxHeight: ['70vh', '70vh'],
+              // height: 'calc(100vh - 200px)',
               padding: '10px'
-            }}>
+            }} ref={scrollRef}>
               {messages?.map((item: any, i: any) => (
                 <Box
                   key={i}
+                  // ref={scrollRef}
                   sx={{
                     display: "flex",
                     justifyContent: item.senderId._id !== user?.user._id ? "flex-start" : "flex-end",
@@ -324,6 +340,7 @@ const Chat = () => {
                   >
                     {item.content}
                   </Box>
+                  <Box ref={scrollRef}/>
                 </Box>
               ))}
             </Box>
@@ -333,6 +350,10 @@ const Chat = () => {
               display: 'flex',
               alignItems: 'center',
               borderTop: '2px solid rebeccapurple',
+              padding: '10px',
+              backgroundColor: "white",
+              zIndex: 5,
+              marginBottom: '50px'
               // mb: "80px"
             }}>
               <TextField
