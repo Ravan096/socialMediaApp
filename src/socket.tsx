@@ -6,7 +6,7 @@ const getSocket = () => useContext(SocketContext);
 
 const SocketProvider = ({ children }: { children: ReactNode }) => {
     const token = localStorage.getItem('token');
-    const socket = useMemo(() => io("http://localhost:4000", {
+    const socket = useMemo(() => io("https://social-media-mitra-junction.vercel.app/", {
         extraHeaders: {
             'Authorization': `Bearer ${token}`
         },
