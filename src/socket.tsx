@@ -1,36 +1,22 @@
-import io, { Socket } from 'socket.io-client';
-import React, { useEffect, useMemo, useState, createContext, useContext, ReactNode } from 'react';
+import io from 'socket.io-client';
+import { useMemo, createContext, useContext, ReactNode } from 'react';
 
-const SocketContext = createContext<Socket | null>(null);
+const SocketContext = createContext<ReturnType<typeof io> | null>(null);
+const getSocket = () => useContext(SocketContext);
 
-export const useSocket = () => useContext(SocketContext);
-
-export const SocketProvider = ({ children }: { children: ReactNode }) => {
-  const [socket, setSocket] = useState<Socket | null>(null);
-
-  useEffect(() => {
+const SocketProvider = ({ children }: { children: ReactNode }) => {
     const token = localStorage.getItem('token');
+    const socket = useMemo(() => io("http://localhost:4000", {
+        extraHeaders: {
+            'Authorization': `Bearer ${token}`
+        },
+        withCredentials: true
+    }), []);
+    return (
+        <SocketContext.Provider value={socket}>
+            {children}
+        </SocketContext.Provider>
+    )
+}
 
-    const newSocket = io("https://social-media-mitra-junction.vercel.app", {
-      transports: ["websocket"], // use websocket directly
-      extraHeaders: {
-        Authorization: `Bearer ${token || ''}`
-      },
-      withCredentials: true
-    });
-
-    setSocket(newSocket);
-
-    return () => {
-      newSocket.disconnect();
-    };
-  }, []);
-
-  if (!socket) return null;
-
-  return (
-    <SocketContext.Provider value={socket}>
-      {children}
-    </SocketContext.Provider>
-  );
-};
+export { SocketProvider, getSocket }
